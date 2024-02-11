@@ -1,6 +1,6 @@
 <?php
 // Example of fetching admin data from the database
-$conn = new mysqli("localhost", "root", "root123", "lms_db");
+$conn = new mysqli("localhost", "root", "", "lms_db");
 
 // Check connection
 if ($conn->connect_error) {

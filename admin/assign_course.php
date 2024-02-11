@@ -8,41 +8,76 @@
     <title>Course Data</title>
 
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
+        
         table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: separate;
-            border-spacing: 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
+            /* width: 100%; */
+            border-collapse: collapse;
+            font-size: 14px; /* Increased font size for better readability */
         }
 
         th,
         td {
             border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
+         
         }
 
         th {
-            background-color: #f5f5f5;
-            font-weight: bold;
+            background-color: #f2f2f2;
+           
+            color: #333; /* Darken the text color */
         }
 
-        tr:hover {
-            background-color: #f9f9f9;
+        /* Styling for the form within the table */
+        form {
+            margin: 0;
+        }
+
+        /* Styling for the file input and submit button */
+        input[type="file"] {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media screen and (max-width: 600px) {
+            table {
+                border: 0;
+            }
+
+            table thead {
+                display: none;
+            }
+
+            table tbody tr {
+                border: 1px solid #ddd;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            table tbody td {
+                display: block;
+                text-align: center;
+            }
+
+            input[type="file"],
+            input[type="submit"] {
+                /* width: 100%; */
+            }
         }
     </style>
-
 </head>
 
 <body>
@@ -68,6 +103,7 @@
         echo "<table>
         <tr>
              <th>Course Name</th>
+             <th>Date</th>
              <th>Course Description</th>
              <th>Course Link</th>
              <th>Practical Link</th>
@@ -76,12 +112,12 @@
         while ($row = $result->fetch_assoc()) {
             echo "<tr>
                 <td>" . $row["coursename"] . "</td>
+                <td>" . $row["date"] . "</td>
                 <td>" . $row["coursedescription"] . "</td>
                 <td><a href='" . $row["courselink"] . "' target='_blank'>" . $row["courselink"] . "</a></td>
                 <td><a href='" . $row["practicallink"] . "' target='_blank'>" . $row["practicallink"] . "</a></td>
-               
+                <td><a href='stdcourses.php'><button class='inline-btn'>Assign</button></a></td>
                 </tr>";
-                
         }
         echo "</table>";
     } else {

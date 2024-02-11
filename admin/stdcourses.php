@@ -114,27 +114,54 @@
 <?php include 'header.php'; ?>
 
     <!-- Menu Section -->
-   <div id="courseAssignment">
-      <h2>Assign Courses to Student</h2>
+    <div id="courseAssignment">
+      <h2>Assign Courses to Students</h2>
       <br>
-      <form action="assign_course_std.php" id="assignmentForm" method="Post">
+      <form action="assign_course_std.php" id="assignmentForm" method="POST">
          <div id="course-form">
-            <label for="link">Course Name:</label>
-            <input type="text" name="coursename" id="link" placeholder="Enter Course Name here..">
+         <label for="coursename">Course Name:</label>
+            <select name="coursename" id="link" required>
+               <option value="" disabled selected>-- Select Course Name --</option>
+               <?php
+               $servername = "localhost";
+               $username = "root";
+               $password = "";
+               $dbname = "lms_db";
+
+               // Create connection
+               $conn = new mysqli($servername, $username, $password, $dbname);
+               // Check connection
+               if ($conn->connect_error) {
+                   die("Connection failed: " . $conn->connect_error);
+               }
+
+               // Fetch unique course names from register_students table
+               $sql = "SELECT DISTINCT profession FROM register_student";
+               $result = $conn->query($sql);
+
+               if ($result->num_rows > 0) {
+                   while ($row = $result->fetch_assoc()) {
+                       echo "<option value='" . $row['profession'] . "'>" . $row['profession'] . "</option>";
+                   }
+               }
+
+               $conn->close();
+               ?>
+            </select>
             <br>
-            <label for="link">Course Date</label>
-            <input type="date" name="date" id="link" placeholder="Enter Course date here..">
+            <label for="link">Course Date:</label>
+            <input type="date" name="date" id="link" required>
             <br>
-            <label for="link">Course description:</label>
-            <textarea type="textarea" name="coursedescription" id="link" placeholder="Enter Course link here.."></textarea>
+            <label for="link">Course Description:</label>
+            <textarea name="coursedescription" id="link" placeholder="Enter Course Description" required></textarea>
             <br>
             <label for="link">Course Link:</label>
-            <input type="text" name="courselink" id="link" placeholder="Enter Course link here..">
+            <input type="text" name="courselink" id="link" placeholder="Enter Course Link" required>
             <br>
             <label for="link">Practical Link:</label>
-            <input type="text" id="link" name="practicallink" placeholder="Enter Practical link here..">
+            <input type="text" name="practicallink" id="link" placeholder="Enter Practical Link" required>
             <br>
-            <button class="inline-btn">Assign Course</button>
+            <button type="submit" class="inline-btn">Assign Course</button>
          </div>
       </form>
 

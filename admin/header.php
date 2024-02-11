@@ -42,7 +42,7 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
              <h3><?php echo $user_name; ?></h3>
             <a href="profile.php" class="btn">view profile</a>
 
-            <a href="../superadmin/index.html" class="btn">logout</a>
+            <a href="index.html" class="btn">logout</a>
         </div>
 
     </section>

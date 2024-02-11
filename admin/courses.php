@@ -14,26 +14,16 @@
    <link rel="stylesheet" href="css/admin_style.css">
 
 </head>
+<style>
+
+</style>
 
 <body>
    <?php include 'header.php'; ?>
-   <!-- Page Content -->
-   <!-- assigned courses -->
-   <div>
-      <!-- <h2>Assign Course to Admin</h2> -->
 
-      <?php
-
-      include 'assign_course.php';
-      ?>
-
-
-      <script src="js/admin_script.js"></script>
-
-
-      <?php include 'sidebar.php'; ?>
-
-
+   <?php include 'assign_course.php';?>
+   <?php include 'sidebar.php'; ?>
+   <script src="js/admin_script.js"></script>
 
 </body>
 

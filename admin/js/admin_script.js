@@ -180,4 +180,3 @@ function sendNotificationByAdmin(){
    };
    xhr.send('&course_id=' + encodeURIComponent(courseId) + '&message=' + encodeURIComponent(message));
 }
-
