@@ -37,7 +37,7 @@
 
 
       <?php
-    include 'db_connection.php';
+    include 'connect_db.php';
 
     $tableName = "admins";
 

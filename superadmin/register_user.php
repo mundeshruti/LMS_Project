@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // Include the database connection file
+include 'connect_db.php'; // Include the database connection file
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

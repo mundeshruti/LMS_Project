@@ -10,11 +10,12 @@ if (!$conn) {
     exit;
 }
 $coursename = $_POST['coursename'];
+$date = $_POST['date'];
 $coursedescription = $_POST['coursedescription'];
 $courselink=$_POST['courselink'];
 $practicallink=$_POST['practicallink'];
 
-$sql="INSERT INTO courses(coursename,coursedescription,courselink,practicallink) VALUES ('".$coursename."', '".$coursedescription."','".$courselink."', '".$practicallink."')";
+$sql="INSERT INTO courses(coursename,date,coursedescription,courselink,practicallink) VALUES ('".$coursename."', '".$date."', '".$coursedescription."','".$courselink."', '".$practicallink."')";
 
 $result = mysqli_query($conn, $sql);
 if (!$result) {

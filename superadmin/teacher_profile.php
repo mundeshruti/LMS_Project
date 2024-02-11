@@ -1,7 +1,7 @@
 <?php
 // Placeholder function to fetch admin details from the database
 
-include 'db_connection.php';
+include 'connect_db.php';
 
 if (isset($_GET['id'])) {
     $adminId = $_GET['id'];

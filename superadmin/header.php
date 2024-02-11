@@ -1,7 +1,7 @@
 <!-- Header Section -->
   <header class="header">
         <section class="flex">
-            <a href="home.html" class="logo">RSL Solution</a>
+            <a href="home.php" class="logo">RSL Solution</a>
             <!-- <form action="search.html" method="post" class="search-form">
                 <input type="text" name="search_box" required placeholder="search notification..." maxlength="100">
                 <button type="submit" class="fas fa-search"></button>
@@ -17,9 +17,8 @@
                 <img src="images/pic-1.jpg" class="image" alt="">
                 <p class="role">Super Admin </p>
                 <a href="profile.php" class="btn">view profile</a>
-                <div class="flex-btn">
-                    <a href="../index.php" class="option-btn">logout</a>
-                </div>
+                <a href="../index.html" class="btn">logout</a>
+               
             </div>
         </section>
     </header>

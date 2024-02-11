@@ -15,6 +15,14 @@
 
 </head>
 <style>
+   body.dark {
+      --light-color: #aaa;
+      --light-bg: #333;
+      --black: #fff;
+      --white: #222;
+      --border: .1rem solid rgba(255, 255, 255, .2);
+   }
+
    body {
       font-family: 'Nunito', sans-serif;
       font-size: large;
@@ -111,21 +119,35 @@
 
 <body>
 
-<?php include 'header.php'; ?>
+   <?php include 'header.php'; ?>
 
-    <!-- Menu Section -->
+   <!-- Menu Section -->
    <div id="courseAssignment">
       <h2>Assign Courses to Admin</h2>
       <br>
       <form action="assign_course.php" id="assignmentForm" method="Post">
          <div id="course-form">
-            <label for="link">Course Name:</label>
-            <input type="text" name="coursename" id="link" placeholder="Enter Course Name here..">
+            <label for="link">Course:</label>
+            <!-- <input type="text" name="coursename" id="link" placeholder="Enter Course Name here.."> -->
+            <select name="coursename" id="link" required>
+               <option value="" disabled selected>select your course</option>
+               <option value="web developer">web developer</option>
+               <option value="full stack developer">full stack developer</option>
+               <option value="java developer">Java developer</option>
+
+            </select>
             <br>
             <label for="link">Course description:</label>
-            <textarea type="textarea" name="coursedescription" id="link" placeholder="Enter Course link here.."></textarea>
+            <textarea type="textarea" name="coursedescription" id="link"
+               placeholder="Enter Course link here.."></textarea>
             <br>
-            <label for="link">Course Link:</label>
+            <label for="link">Date</label>
+            <input type="date" name="date" id="link" placeholder="Enter Course date here..">
+            <br>
+            <!-- <label for="link">End Date</label>
+            <input type="date" name="date" id="link" placeholder="Enter Course date here..">
+            <br> -->
+            <label for="link">Courses Link:</label>
             <input type="text" name="courselink" id="link" placeholder="Enter Course link here..">
             <br>
             <label for="link">Practical Link:</label>
@@ -136,9 +158,7 @@
       </form>
 
       <?php include 'sidebar.php'; ?>
-
-
-
 </body>
+<script src="js/script.js"></script>
 
 </html>

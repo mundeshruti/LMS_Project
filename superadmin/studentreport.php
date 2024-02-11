@@ -84,7 +84,6 @@
       .table tbody tr:nth-child(even) {
          background-color: #f2f2f2;
       }
-
       .row {
     display: flex;
     flex-wrap: wrap;
@@ -151,7 +150,7 @@
    <!-- Student Report -->
    <div class="main-content hide-content" id="studentReport">
       <!-- Include common report form -->
-      <h1>Admin Report</h1>
+      <h1>Student Report</h1>
       <div class="options">
          <!-- Date Range Selector -->
          <div class="row">
@@ -165,16 +164,12 @@
             </div>
             <div class="download-btn">
                <button class="btn btn-primary" onclick="downloadReport('pdf', 'adminReport')"><i
-                     class="fas fa-file-pdf"></i></button>
+                     class="fas fa-file-pdf"></i> </button>
             </div>
-            <br>
             <div class="download-btn">
                <button class="btn btn-success" onclick="downloadReport('excel', 'adminReport')"><i
                      class="fas fa-file-excel"></i></button>
             </div>
-            <br>
-            <br>
-            <br>
             <div class="col-md-4">
                <label for="search" class="form-label">Search:</label>
                <input type="text" class="form-control" id="search" placeholder="Search...">
