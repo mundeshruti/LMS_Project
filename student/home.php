@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+// Assuming you have a database connection established in 'db_connection.php'
+include 'connect_db.php';
+
+$st_id = $_SESSION['st_id'];
+$st_name = isset($_SESSION['st_name']) ? $_SESSION['st_name'] : '';
+$user_email = isset($_SESSION['st_email']) ? $_SESSION['st_email'] : '';
+$user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
+
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -26,11 +37,11 @@
                <div class="box">
                   <h3></h3>
                   <p>view your profile</p>
-                  <a href="profile.php" class="inline-btn">profile</a>
+                  <a href="profile.php" class="btn">profile</a>
                </div>
                <div class="box">
                   <p>view Assigned courses</p>
-                  <a href="courses.php" class="inline-btn">view courses</a>
+                  <a href="courses.php" class="btn">view courses</a>
                </div>
                <!-- <div class="box">
                   <p>view your Progress</p>
@@ -38,11 +49,11 @@
                </div> -->
                <div class="box">
                   <p>view your Program details</p>
-                  <a href="program.php" class="inline-btn">view Program details</a>
+                  <a href="program.php" class="btn">view Program details</a>
                </div>
                <div class="box">
                   <p>view your Notifications</p>
-                  <a href="notification.php" class="inline-btn">view Notifications</a>
+                  <a href="notification.php" class="btn">view Notifications</a>
                </div>
             </div>
          </section>

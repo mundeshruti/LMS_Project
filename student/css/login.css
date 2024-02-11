@@ -1,99 +1,116 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700&display=swap');
 
-:root{
-   --main-color:#8e44ad;
-   --red:#e74c3c;
-   --orange:#f39c12;
-   --light-color:#888;
-   --light-bg:#eee;
-   --black:#2c3e50;
-   --white:#fff;
-   --border:.1rem solid rgba(0,0,0,.2);
+:root {
+   --main-color: #8e44ad;
+   --red: #e74c3c;
+   --orange: #f39c12;
+   --light-color: #888;
+   --light-bg: #eee;
+   --black: #2c3e50;
+   --white: #fff;
+   --border: .1rem solid rgba(0, 0, 0, .2);
 }
 
-*{
+* {
    font-family: 'Nunito', sans-serif;
-   margin:0; padding:0;
+   margin: 0;
+   padding: 0;
    box-sizing: border-box;
-   outline: none; border:none;
+   outline: none;
+   border: none;
    text-decoration: none;
 }
 
-*::selection{
+*::selection {
    background-color: var(--main-color);
-   color:#fff;
+   color: #fff;
 }
 
-html{
+html {
    font-size: 62.5%;
    overflow-x: hidden;
 }
 
-html::-webkit-scrollbar{
+html::-webkit-scrollbar {
    width: 1rem;
    height: .5rem;
 }
 
-html::-webkit-scrollbar-track{
+html::-webkit-scrollbar-track {
    background-color: transparent;
 }
 
-html::-webkit-scrollbar-thumb{
+html::-webkit-scrollbar-thumb {
    background-color: var(--main-color);
 }
 
-body{
+body {
    background-color: var(--light-bg);
-   padding-left: 0rem;
+   /* padding-left: 30rem; */
 }
 
-section{
-   padding:2rem;
+body.dark {
+   --light-color: #aaa;
+   --light-bg: #333;
+   --black: #fff;
+   --white: #222;
+   --border: .1rem solid rgba(255, 255, 255, .2);
+}
+
+body.active {
+   padding-left: 0;
+}
+
+section {
+   /* padding:2rem; */
    margin: 0 auto;
    max-width: 1200px;
 }
+
 
 .inline-btn,
 .inline-option-btn,
 .inline-delete-btn,
 .btn,
 .delete-btn,
-.option-btn{
+.option-btn {
    border-radius: .5rem;
-   color:#fff;
+   color: #fff;
    font-size: 1.8rem;
    cursor: pointer;
    text-transform: capitalize;
-   padding:1rem 3rem;
+   padding: 1rem 3rem;
    text-align: center;
    margin-top: 1rem;
 }
 
 .btn,
 .delete-btn,
-.option-btn{
+.option-btn {
    display: block;
    width: 100%;
 }
 
 .inline-btn,
 .inline-option-btn,
-.inline-delete-btn{
+.inline-delete-btn,
+.delete-btn {
    display: inline-block;
 }
 
 .btn,
-.inline-btn{
+.inline-btn,
+.delete-btn {
    background-color: var(--main-color);
 }
 
 .option-btn,
-.inline-option-btn{
-   background-color:var(--orange);
+.inline-option-btn {
+   background-color: var(--orange);
 }
 
 .delete-btn,
-.inline-delete-btn{
+.inline-delete-btn {
    background-color: var(--red);
 }
 
@@ -102,57 +119,66 @@ section{
 .inline-delete-btn:hover,
 .btn:hover,
 .delete-btn:hover,
-.option-btn:hover{
+.option-btn:hover {
    background-color: var(--black);
    color: var(--white);
 }
 
-.flex-btn{
+.flex-btn {
    display: flex;
    gap: 1rem;
 }
 
-.form-container{
-   min-height: calc(100vh - 20rem);
+.container {
+   background-image: linear-gradient(rgba(195, 195, 195, 0.8),
+         rgba(244, 244, 244, 0.8)),
+      url(../images/background.jpg);
    display: flex;
-   align-items: center;
    justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background-position: center;
+   background-size: cover;
+   position: relative;
 }
 
-.form-container form{
+.form-container {
+   min-height: calc(100vh - 20rem);
+   align-items: center;
+   justify-content: center;
+
+}
+
+.form-container form {
    background-color: var(--white);
    border-radius: .5rem;
    padding: 2rem;
    width: 50rem;
 }
 
-.form-container form h3{
+.form-container form h3 {
    font-size: 2.5rem;
    text-transform: capitalize;
    color: var(--black);
    text-align: center;
 }
 
-.form-container form p{
+.form-container form p {
    font-size: 1.7rem;
    color: var(--light-color);
    padding-top: 1rem;
 }
 
-.form-container form p span{
+.form-container form p span {
    color: var(--red);
 }
 
-.form-container form .box{
-   font-size: 1.5rem;
+.form-container form .box {
+   font-size: 1.8rem;
    color: var(--black);
    border-radius: .5rem;
    padding: 1.4rem;
    background-color: var(--light-bg);
    width: 100%;
    margin: 1rem 0;
-}
-.form-container form .new{
-    float: left;
-    font-size:medium;
 }
