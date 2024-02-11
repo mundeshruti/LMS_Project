@@ -1,5 +1,4 @@
 <?php
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -21,18 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($email === "superadmin@gmail.com" && $password === "12345678") {
         echo "<script>window.location.href = 'superadmin/home.php';</script>";
     } 
-    elseif ($email === "admin@gmail.com" && $password === "12345678") {
-        echo "<script>window.location.href = 'admin/dashboard.html';</script>";
-    } 
-    elseif ($email === "student@gmail.com" && $password === "12345678") {
-        echo "<script>window.location.href = 'student/home.php';</script>";
-    }
     else {
         // $error_message = "Wrong username or password";
         // echo "<p style='color: red;'>Wrong username or password</p>";
         echo '<script>';
         echo 'alert("Wrong username or password");';
-        echo 'window.location.href = "index.php";';
+        echo 'window.location.href = "index.html";';
         echo '</script>';
         exit();
     }
