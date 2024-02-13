@@ -24,25 +24,37 @@
 
       <div class="box">
          <h3 class="title">Add a Admin</h3>
-         <p class="tutor">.......</p>
+         <p class="tutor"></p>
          <a href="teachers.php" class="inline-btn">get started</a>
       </div>
 
       <div class="box">
-         <h3 class="title">Assign Course</h3>
-         <p class="tutor">.......</p>
-         <a href="courses.php" class="inline-btn">get started</a>
+         <h3 class="title">Create Course</h3>
+         <p class="tutor"></p>
+         <a href="create_course.php" class="inline-btn">create course here</a>
+      </div>
+
+      <div class="box">
+         <h3 class="title">course detail</h3><!--Newly created-->
+         <p class="tutor"></p>
+         <a href="course_details.php" class="inline-btn">course contain</a>
+      </div>
+
+      <div class="box">
+         <h3 class="title">Assign to Admin</h3><!--Newly created-->
+         <p class="tutor"></p>
+         <a href="assign_course_admin.php" class="inline-btn">Assign to Admin</a>
       </div>
 
       <div class="box">
          <h3 class="title">Send Notifications</h3>
-         <p class="tutor">.......</p>
+         <p class="tutor"></p>
          <a href="notification.php" class="inline-btn">get started</a>
       </div>
 
       <div class="box">
          <h3 class="title">View Reports</h3>
-         <p class="tutor">.......</p>
+         <p class="tutor"></p>
          <a href="report.php" class="inline-btn">get started</a>
       </div>
 

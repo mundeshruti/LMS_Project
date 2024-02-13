@@ -10,7 +10,7 @@
     <nav class="navbar">
         <a href="home.php"><i class="fas fa-home"></i><span>Home</span></a>
         <a href="teachers.php"><i class="fas fa-chalkboard-user"></i><span>Admins</span></a>
-        <a href="courses.php"><i class="fa-solid fa-book-open"></i><span>Courses</span></a>
+        <a href="create_courses_display.php"><i class="fa-solid fa-book-open"></i><span>Courses</span></a>
         <!-- <a href="report.php"><i class="fa-regular fa-eye"></i><span>Reports</span></a> -->
         <a button class="dropdown-btn"><i class="fa-solid fa-file-lines"></i><span> Report ▼</button></span></a>
 
