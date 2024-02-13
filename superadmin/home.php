@@ -37,7 +37,7 @@
       <div class="box">
          <h3 class="title">course detail</h3><!--Newly created-->
          <p class="tutor"></p>
-         <a href="course_details.php" class="inline-btn">course contain</a>
+         <a href="course_details.php" class="inline-btn">course content</a>
       </div>
 
       <div class="box">
