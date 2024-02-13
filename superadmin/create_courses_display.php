@@ -22,7 +22,7 @@
     <section class="teachers">
         <div class="box-container">
             <form action="" method="post" class="search-tutor">
-                <input type="text" name="search_box" placeholder="Search Admin..." maxlength="100">
+                <input type="text" name="search_box" placeholder="Search Courses here..." maxlength="100">
                 <button type="submit" class="fas fa-search" name="search_tutor"></button>
             </form>
         </div>
