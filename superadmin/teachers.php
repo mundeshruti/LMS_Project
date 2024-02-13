@@ -18,15 +18,11 @@
 <body>
     <?php include 'header.php'; ?>
     <section class="teachers">
-
         <h1 class="heading">Prominent Admin</h1><!--Newly created-->
-
         <form action="" method="post" class="search-tutor">
             <input type="text" name="search_box" placeholder="search Admin..." maxlength="100">
             <button type="submit" class="fas fa-search" name="search_tutor"></button>
         </form>
-
-
         <div class="box-container">
 
             <div class="box offer">
@@ -34,13 +30,9 @@
                 <p>..........</p>
                 <a href="register.php" class="inline-btn">Add Admin</a>
             </div>
-
-
             <?php
             include 'connect_db.php';
-
             $tableName = "admins";
-
             // Check if the form is submitted for deletion
             if (isset($_POST['delete_admin'])) {
                 $adminIdToDelete = $_POST['admin_id_to_delete'];
@@ -55,7 +47,6 @@
                     $errorMessage = "Error deleting admin: " . $conn->error;
                 }
             }
-
             // SQL query to fetch admins created by the super admin
             $sql = "SELECT * FROM $tableName";
             $result = $conn->query($sql);
