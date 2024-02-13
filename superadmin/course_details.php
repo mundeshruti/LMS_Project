@@ -21,7 +21,7 @@
     <?php include 'header.php'; ?>
     <div id="courseAssignment">
         <form action="submit_course_details.php" method="post">
-            <h2>Course container</h2>
+            <h2>Course Content</h2>
             <label for="course_name">Course Name:</label>
             <select id="course_name" name="course_name">
                 <?php
