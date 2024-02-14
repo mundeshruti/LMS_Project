@@ -30,7 +30,8 @@ END AS course_name
 FROM notification_records nr
 LEFT JOIN admins a ON nr.admin_id = a.id
 LEFT JOIN courses c ON nr.course_id = c.id
-WHERE is_createdby_admin = 1 and admin_id = '$adminId'";
+WHERE is_createdby_admin = 1 and admin_id = '$adminId'
+order by nr.id desc;";
 
 $notification_result = $conn->query($notification_query);
 
