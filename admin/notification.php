@@ -1,4 +1,6 @@
 <?php
+session_start(); 
+
 // Example of fetching admin data from the database
 $conn = new mysqli("localhost", "root", "", "lms_db");
 
@@ -10,6 +12,27 @@ if ($conn->connect_error) {
 // Fetch admin data from the database
 $course_query = "SELECT id, coursename FROM courses";
 $course_result = $conn->query($course_query);
+
+// Retrieve data from the AJAX request
+$adminId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '-1';
+
+// Fetch admin data from the database
+$notification_query = "SELECT
+nr.message,
+CASE
+    WHEN a.name IS NULL THEN 'All Admins'
+    WHEN a.id > 0 THEN a.name
+END AS admin_name,
+CASE
+    WHEN c.coursename IS NULL THEN 'All Courses'
+    WHEN c.id > 0 THEN c.coursename
+END AS course_name
+FROM notification_records nr
+LEFT JOIN admins a ON nr.admin_id = a.id
+LEFT JOIN courses c ON nr.course_id = c.id
+WHERE is_createdby_admin = 1 and admin_id = '$adminId'";
+
+$notification_result = $conn->query($notification_query);
 
 // Check if the query was successful
 if (!$course_result) {
@@ -177,14 +200,36 @@ if (!$course_result) {
 
     <!-- Unread Notification Count -->
     <div id="unread-count" class="unread-count"></div>
+    <div id="notification-container">
+    <?php
+            if ($notification_result->num_rows > 0) {
+                // Start building the HTML for notifications
+                $notifications_html = '<div class="notification-container">';
+                
+                // Loop through the result set and add each notification to the HTML
+                while ($row = $notification_result->fetch_assoc()) {
+                    $adminName = $row['admin_name'];
+                    $message = $row['message'];
+                    $courseName = $row['course_name'];
+                    
+                    // Add HTML for the current notification to the $notifications_html string
+                    $notifications_html .= "<div class='notification'><strong> $adminName: </strong> ($courseName) $message</div>";
+                }
+                
+                // Close the notification container
+                $notifications_html .= '</div>';
+                
+                // Output the complete HTML for notifications
+                echo $notifications_html;
+            } else {
+                // If no notifications are found, you can display a message or perform any other action
+                echo "No notifications found";
+            }
+            ?>
+    </div>
 
-    <!-- Notification Container -->
-    <div id="notification-container" class="notification-container"></div>
-
-    <!-- Custom JS file link -->
-   
-    <script src="js/admin_script.js"></script>
-    
+<!-- Custom JS file link -->
+<script src="js/admin_script.js"></script>
 <?php include 'sidebar.php'; ?>
 
 </body>

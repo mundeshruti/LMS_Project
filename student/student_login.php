@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['st_name'] = $row['name'];
                     $_SESSION['st_email'] = $row['email'];
                     $_SESSION['st_image'] = 'admins/uploads/' . $row['image_path'];
+                    $_SESSION['st_admin_id'] = $row['created_by'];
+                    $_SESSION['st_course_id'] = $row['active_course_id'];
+
                     session_regenerate_id();
 
                     echo "<script>alert('Logged in successfully!');</script>";

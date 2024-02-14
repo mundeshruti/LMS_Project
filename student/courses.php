@@ -3,7 +3,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root123";
 $dbname = "lms_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

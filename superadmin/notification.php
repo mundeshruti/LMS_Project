@@ -1,6 +1,46 @@
+<?php
+// Example of fetching admin data from the database
+$conn = new mysqli("localhost", "root", "root123", "lms_db");
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Fetch admin data from the database
+$sql = "SELECT id, name FROM admins";
+$result = $conn->query($sql);
+
+// Fetch admin data from the database
+$course_query = "SELECT id, coursename FROM courses";
+$course_result = $conn->query($course_query);
+
+// Fetch admin data from the database
+$notification_query = "SELECT
+nr.message,
+CASE
+    WHEN a.name IS NULL THEN 'All Admins'
+    WHEN a.id > 0 THEN a.name
+END AS admin_name,
+CASE
+    WHEN c.coursename IS NULL THEN 'All Courses'
+    WHEN c.id > 0 THEN c.coursename
+END AS course_name
+FROM notification_records nr
+LEFT JOIN admins a ON nr.admin_id = a.id
+LEFT JOIN courses c ON nr.course_id = c.id
+WHERE is_createdby_superadmin = 1";
+
+$notification_result = $conn->query($notification_query);
+
+// Check if the query was successful
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -107,8 +147,6 @@
             border: 1px solid black;
         }
 
-
-
         #notification-form button {
             padding: 10px;
             background-color: #007bff;
@@ -122,10 +160,10 @@
             background-color: #0056b3;
         }
     </style>
-</head>
 
+</head>
 <body>
-<?php include 'header.php'; ?>
+    <?php include 'header.php'; ?>
 
     <!-- Notification Form and Container Section -->
     <div id="notification-form">
@@ -133,108 +171,70 @@
         <label for="recipient-type">Select Recipient Type:</label>
         <select id="recipient-type">
             <option value="alladmins">All Admins</option>
-            <option value="admin1">Admin1 </option>
-            <option value="admins">Admin2</option>
-            <option value="admins">Admin3</option>
-            <option value="admins">Admin4</option>
-            <option value="admins">Admin5</option>
+            <div id="notification-container" class="notification-container">
+            <?php
+            // Loop through the results and generate options dynamically
+            while ($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row['id'] . '">' . $row['name'] . " - " .  $row['id'] . '</option>';      
+            }
+            ?>
         </select>
         <br>
         <label for="recipient">Select Recipient:</label>
-        <select id="recipient"></select>
+        <select id="recipient">
+            <option value="All-Course">All Course</option>
+            <?php
+            
+            // Loop through the results and generate options dynamically
+            while ($row = $course_result->fetch_assoc()) {
+                echo '<option value="' . $row['id'] . '">' . $row['coursename'] . '</option>'; 
+            }
+            ?>
+            </div>
+        </select>
         <br>
         <label for="notification-message">Notification Message:</label>
         <textarea id="notification-message" rows="5"></textarea>
         <br>
-        <button onclick="sendNotification()" class="inline-btn">Send Notification</button>
+        <button onclick="sendNotificationBySuperadmin()" class="inline-btn">Send Notification</button>
     </div>
 
-    <!-- Unread Notification Count -->
     <div id="unread-count" class="unread-count"></div>
-
-    <!-- Notification Container -->
-    <div id="notification-container" class="notification-container"></div>
-
-    <script>
-        // Sample data for recipients
-        var recipients = {
-            alladmins: ['All course ', 'java', 'html', 'css'],
-            admin1: ['All course ', 'java', 'html', 'css'],
-            // 'all students': ['All course ', 'java', 'html', 'css'],
-            // 'java-course': ['All course ', 'java', 'html', 'css'],
-            // 'python-course': ['All course ', 'java', 'html', 'css'],
-            // 'c-course': ['All course ', 'java', 'html', 'css'],
-        };
-
-        // Unread notification count
-        var unreadCount = 0;
-
-        // Update recipients dropdown based on the selected recipient type
-        function updateRecipients() {
-            var recipientType = document.getElementById('recipient-type').value;
-            var recipientDropdown = document.getElementById('recipient');
-            recipientDropdown.innerHTML = '';
-
-            recipients[recipientType].forEach(function (recipient) {
-                var option = document.createElement('option');
-                option.value = recipient;
-                option.text = recipient;
-                recipientDropdown.add(option);
-            });
-        }
-
-        // Send a notification to the selected recipient
-        function sendNotification() {
-            var recipientType = document.getElementById('recipient-type').value;
-            var recipient = document.getElementById('recipient').value;
-            var message = document.getElementById('notification-message').value;
-
-            // Check if the message is not empty
-            if (message.trim() === '') {
-                alert('Please enter a notification message.');
-                return;
+    <div id="notification-container">
+            <?php
+            if ($notification_result->num_rows > 0) {
+                // Start building the HTML for notifications
+                $notifications_html = '<div class="notification-container">';
+                
+                // Loop through the result set and add each notification to the HTML
+                while ($row = $notification_result->fetch_assoc()) {
+                    $adminName = $row['admin_name'];
+                    $message = $row['message'];
+                    $courseName = $row['course_name'];
+                    
+                    // Add HTML for the current notification to the $notifications_html string
+                    $notifications_html .= "<div class='notification'><strong> Super Admin: </strong> $adminName: ($courseName) $message</div>";
+                }
+                
+                // Close the notification container
+                $notifications_html .= '</div>';
+                
+                // Output the complete HTML for notifications
+                echo $notifications_html;
+            } else {
+                // If no notifications are found, you can display a message or perform any other action
+                echo "No notifications found";
             }
-
-            // Display the notification on the page
-            displayNotification(message, recipient);
-
-            // Increment unread notification count
-            unreadCount++;
-            updateUnreadCount();
-
-            // Clear the form fields
-            document.getElementById('notification-message').value = '';
-
-            // For demonstration purposes, log the notification to the console
-            console.log(`Notification sent to ${recipient} (${recipientType}): ${message}`);
-        }
-
-        // Display the notification on the page
-        function displayNotification(message, recipient) {
-            var notificationContainer = document.getElementById('notification-container');
-            var notificationElement = document.createElement('div');
-            notificationElement.className = 'notification';
-            notificationElement.innerHTML = `<strong>${recipient}:</strong> ${message}`;
-            notificationContainer.appendChild(notificationElement);
-        }
-
-        // Update the unread notification count on the page
-        function updateUnreadCount() {
-            var unreadCountElement = document.getElementById('unread-count');
-            unreadCountElement.textContent = ` ${unreadCount}`;
-            // unreadCountElement.textContent = `Unread Notifications: ${unreadCount}`;
-        }
-
-        // Attach event listener to update recipients dropdown when recipient type changes
-        document.getElementById('recipient-type').addEventListener('change', updateRecipients);
-
-        // Initialize recipients dropdown on page load
-        updateRecipients();
-    </script>
+            ?>
 
     <!-- Custom JS file link -->
     <script src="js/script.js"></script>
     <?php include 'sidebar.php'; ?>
-</body>
 
+</body>
 </html>
+
+<?php
+// Close the database connection
+$conn->close();
+?>
