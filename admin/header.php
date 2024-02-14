@@ -1,11 +1,15 @@
 <!-- Header Section -->
 <?php
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
 $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
+
 ?>
 <header class="header">
 
@@ -42,7 +46,7 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
              <h3><?php echo $user_name; ?></h3>
             <a href="profile.php" class="btn">view profile</a>
 
-            <a href="index.html" class="btn">logout</a>
+            <a href="../admin/index.html" class="btn">logout</a>
         </div>
 
     </section>

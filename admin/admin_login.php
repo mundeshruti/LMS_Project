@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $trimmedPassword = trim($password);
                 if (password_verify($trimmedPassword, $row['password'])) {
                     session_start();
-                    $_SESSION['user_id'] = $row['admin_id'];
+                    $_SESSION['user_id'] = $row['id'];
                     $_SESSION['user_name'] = $row['name'];
                     $_SESSION['user_email'] = $row['email'];
                     $_SESSION['user_image'] = 'uploads/' . $row['profile_image'];

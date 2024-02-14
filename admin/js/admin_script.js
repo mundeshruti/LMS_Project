@@ -175,8 +175,7 @@ function sendNotificationByAdmin(){
    xhr.onreadystatechange = function () {
        if (xhr.readyState == 4 && xhr.status == 200) {
            // Display success message or handle any other response
-           alert(xhr.responseText);
-       }
+           alert(xhr.responseText);       }
    };
    xhr.send('&course_id=' + encodeURIComponent(courseId) + '&message=' + encodeURIComponent(message));
 }

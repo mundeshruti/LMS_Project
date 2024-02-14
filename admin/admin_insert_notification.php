@@ -1,7 +1,9 @@
 <?php
+session_start();
+
 // Retrieve data from the AJAX request
-//TODO: Pass the logged in user_id(admin_id) from session.
-$adminId = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
+// if user_id is not found from sessin he will set the adminid as 1
+$adminId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '-1';
 $courseId = $_POST['course_id'];
 $message = $_POST['message'];
 
