@@ -18,12 +18,12 @@ CASE
     WHEN a.id > 0 THEN a.name
 END AS admin_name,
 CASE
-	WHEN c.coursename IS NULL THEN 'All Courses'
-    WHEN c.id > 0 THEN c.coursename
+	WHEN c.course_name IS NULL THEN 'All Courses'
+    WHEN c.course_id > 0 THEN c.course_name
 END AS course_name
 FROM notification_records nr
 LEFT JOIN admins a ON nr.admin_id = a.id
-LEFT JOIN courses c ON nr.course_id = c.id
+LEFT JOIN create_course c ON nr.course_id = c.course_id
 WHERE nr.admin_id In ('$st_admin_id', 0) AND nr.course_id IN ('$st_course_id', 0)
 order by nr.id desc;";
 

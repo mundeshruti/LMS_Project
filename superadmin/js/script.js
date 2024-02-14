@@ -79,13 +79,19 @@ function sendNotificationBySuperadmin() {
     xhr.open('POST', 'superadmin_insert_notification.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // Handle the response from the server
-            alert(xhr.responseText);
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                // Handle the response from the server
+                alert(xhr.responseText);
+                // Reload the page after successful submission
+                location.reload();
+            } else {
+                // Handle error
+                alert('Error occurred while sending notification.');
+            }
         }
     };
 
     // Send the request with the necessary data
     xhr.send('admin_id=' + encodeURIComponent(recipientType) + '&course_id=' + encodeURIComponent(recipient) + '&message=' + encodeURIComponent(message));
 }
-

@@ -12,7 +12,7 @@ $sql = "SELECT id, name FROM admins";
 $result = $conn->query($sql);
 
 // Fetch admin data from the database
-$course_query = "SELECT id, coursename FROM courses";
+$course_query = "SELECT course_id id, course_name coursename FROM create_course";
 $course_result = $conn->query($course_query);
 
 // Fetch admin data from the database
@@ -23,12 +23,12 @@ CASE
     WHEN a.id > 0 THEN a.name
 END AS admin_name,
 CASE
-    WHEN c.coursename IS NULL THEN 'All Courses'
-    WHEN c.id > 0 THEN c.coursename
+    WHEN c.course_name IS NULL THEN 'All Courses'
+    WHEN c.course_id > 0 THEN c.course_name
 END AS course_name
 FROM notification_records nr
 LEFT JOIN admins a ON nr.admin_id = a.id
-LEFT JOIN courses c ON nr.course_id = c.id
+LEFT JOIN create_course c ON nr.course_id = c.course_id
 WHERE is_createdby_superadmin = 1
 order by nr.id desc;";
 
@@ -226,8 +226,7 @@ if (!$result) {
                 // If no notifications are found, you can display a message or perform any other action
                 echo "No notifications found";
             }
-            ?>
-
+            ?>  
     <!-- Custom JS file link -->
     <script src="js/script.js"></script>
     <?php include 'sidebar.php'; ?>
