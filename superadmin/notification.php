@@ -15,29 +15,49 @@ $result = $conn->query($sql);
 $course_query = "SELECT course_id id, course_name coursename FROM create_course";
 $course_result = $conn->query($course_query);
 
+// Pagination parameters
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$limit = 5; // Number of notifications per page
+$offset = ($page - 1) * $limit;
+
 // Fetch admin data from the database
 $notification_query = "SELECT
-nr.message,
-CASE
-    WHEN a.name IS NULL THEN 'All Admins'
-    WHEN a.id > 0 THEN a.name
-END AS admin_name,
-CASE
-    WHEN c.course_name IS NULL THEN 'All Courses'
-    WHEN c.course_id > 0 THEN c.course_name
-END AS course_name
-FROM notification_records nr
+    nr.message,
+    a.name AS admin_name,
+    c.course_name AS course_name
+FROM notification nr
 LEFT JOIN admins a ON nr.admin_id = a.id
 LEFT JOIN create_course c ON nr.course_id = c.course_id
 WHERE is_createdby_superadmin = 1
-order by nr.id desc;";
+ORDER BY nr.id DESC LIMIT $limit OFFSET $offset";
 
 $notification_result = $conn->query($notification_query);
 
 // Check if the query was successful
-if (!$result) {
-    die("Query failed: " . $conn->error);
+if ($notification_result) {
+    // Fetch the total count separately without LIMIT and OFFSET
+    $count_query = "SELECT COUNT(*) AS total FROM notification nr
+LEFT JOIN admins a ON nr.admin_id = a.id
+LEFT JOIN create_course c ON nr.course_id = c.course_id
+WHERE is_createdby_superadmin = 1;";
+    
+    $count_result = $conn->query($count_query);
+    
+    // Check if the count query was successful
+    if ($count_result) {
+        $total_records = $count_result->fetch_assoc()['total'];
+        $total_pages = ceil($total_records / $limit);
+    } else {
+        $total_pages = 0; // or set a default value
+    }
+} else {
+    $total_pages = 0; // or set a default value
 }
+
+    // Check if the query was successful
+    if (!$result) {
+        die("Query failed: " . $conn->error);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -160,6 +180,30 @@ if (!$result) {
         #notification-form button:hover {
             background-color: #0056b3;
         }
+
+        #pagination-container {
+        margin-top: 20px;
+}
+
+    #pagination-container a {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-right: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+    }
+
+    #pagination-container a.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    #pagination-container a:hover {
+        background-color: #f0f0f0;
+    }
+
     </style>
 
 </head>
@@ -171,7 +215,7 @@ if (!$result) {
         <h2>Send Notification</h2>
         <label for="recipient-type">Select Recipient Type:</label>
         <select id="recipient-type">
-            <option value="alladmins">All Admins</option>
+            <option value="0">All Admins</option>
             <div id="notification-container" class="notification-container">
             <?php
             // Loop through the results and generate options dynamically
@@ -183,7 +227,7 @@ if (!$result) {
         <br>
         <label for="recipient">Select Recipient:</label>
         <select id="recipient">
-            <option value="All-Course">All Course</option>
+            <option value="0">All Course</option>
             <?php
             
             // Loop through the results and generate options dynamically
@@ -208,10 +252,10 @@ if (!$result) {
                 $notifications_html = '<div class="notification-container">';
                 
                 // Loop through the result set and add each notification to the HTML
-                while ($row = $notification_result->fetch_assoc()) {
-                    $adminName = $row['admin_name'];
-                    $message = $row['message'];
-                    $courseName = $row['course_name'];
+            while ($row = $notification_result->fetch_assoc()) {
+            $adminName = isset($row['admin_name']) ? $row['admin_name'] : 'All Admin';
+            $message = $row['message'];
+            $courseName = isset($row['course_name']) ? $row['course_name'] : 'All Course';
                     
                     // Add HTML for the current notification to the $notifications_html string
                     $notifications_html .= "<div class='notification'><strong> Super Admin: </strong> $adminName: ($courseName) $message</div>";
@@ -220,13 +264,32 @@ if (!$result) {
                 // Close the notification container
                 $notifications_html .= '</div>';
                 
-                // Output the complete HTML for notifications
+                // Output the complete HTML for notificationsb
                 echo $notifications_html;
             } else {
                 // If no notifications are found, you can display a message or perform any other action
                 echo "No notifications found";
             }
             ?>  
+           
+            <div id="pagination-container">
+                <!-- Previous Button -->
+                <?php if ($page > 1): ?>
+                    <a href='notification.php?page=<?php echo ($page - 1); ?>'>&laquo; Previous</a>
+                <?php endif; ?>
+
+                <!-- Pagination links -->
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <a href='notification.php?page=<?php echo $i; ?>' <?php if ($i == $page) echo 'class="active"'; ?>><?php echo $i; ?></a>
+                <?php endfor; ?>
+
+                <!-- Next Button -->
+                <?php if ($page < $total_pages): ?>
+                    <a href='notification.php?page=<?php echo ($page + 1); ?>'>Next &raquo;</a>
+                <?php endif; ?>
+            </div>
+
+    
     <!-- Custom JS file link -->
     <script src="js/script.js"></script>
     <?php include 'sidebar.php'; ?>

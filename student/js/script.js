@@ -60,3 +60,26 @@ window.onload = function() {
     };
  };
  
+
+ function updateUnreadNotifications() {
+    console.log('update Notification function called');
+
+    // Make an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_unread_notification.php',true); // Pass pageNumber for pagination
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                // Reload the page after successful submission
+                location.reload();
+            } else {
+                // Handle error
+                alert('Error occurred while sending notification.');
+            }
+        }
+    };
+
+    // Send the request with the necessary data
+    xhr.send();
+}
