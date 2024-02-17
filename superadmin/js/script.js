@@ -60,7 +60,7 @@ window.onload = function() {
    };
 };
 
-function sendNotificationBySuperadmin() {
+function sendNotificationBySuperadmin(pageNumber) {
     console.log('sendNotification function called');
     
     // Get values from the HTML form
@@ -76,7 +76,7 @@ function sendNotificationBySuperadmin() {
 
     // Make an AJAX request
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'superadmin_insert_notification.php', true);
+    xhr.open('POST', 'superadmin_insert_notification.php?page=' + pageNumber, true); // Pass pageNumber for pagination
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {

@@ -16,29 +16,38 @@ $course_result = $conn->query($course_query);
 // Retrieve data from the AJAX request
 $adminId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '-1';
 
-// Fetch admin data from the database
+// Pagination parameters
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$limit = 5; // Number of notifications per page
+$offset = ($page - 1) * $limit;
+
 $notification_query = "SELECT
-nr.message,
-CASE
-    WHEN a.name IS NULL THEN 'All Admins'
-    WHEN a.id > 0 THEN a.name
-END AS admin_name,
-CASE
-    WHEN c.course_name IS NULL THEN 'All Courses'
-    WHEN c.course_id > 0 THEN c.course_name
-END AS course_name
-FROM notification_records nr
+    nr.message,
+    a.name AS admin_name,
+    c.course_name AS course_name
+FROM notification nr
 LEFT JOIN admins a ON nr.admin_id = a.id
 LEFT JOIN create_course c ON nr.course_id = c.course_id
-WHERE is_createdby_admin = 1 and admin_id = '$adminId'
-order by nr.id desc;";
+WHERE is_createdby_admin = 1 AND admin_id = '$adminId'
+ORDER BY nr.id DESC LIMIT $limit OFFSET $offset";
 
 $notification_result = $conn->query($notification_query);
 
+// Calculate total number of pages
+$sql = "SELECT COUNT(*) AS total FROM notification WHERE is_createdby_admin = 1 and admin_id = '$adminId'";
+$result = $conn->query($sql);
+if ($result) {
+    $total_records = $result->fetch_assoc()['total'];
+    $total_pages = ceil($total_records / $limit);
+} else {
+    $total_pages = 0; // or set a default value
+}
+
 // Check if the query was successful
-if (!$course_result) {
+if (!$course_result || !$notification_result) {
     die("Query failed: " . $conn->error);
 }
+
 ?>
 
 <!doctype html>
@@ -58,118 +67,140 @@ if (!$course_result) {
 
 </head>
 <style>
-    body {
-        font-family: 'Nunito', sans-serif;
-        font-size: large;
-        margin: 20;
-        padding: 20;
-    }
+     body {
+            font-family: 'Nunito', sans-serif;
+            font-size: large;
+            margin: 20;
+            padding: 20;
+        }
 
-    #notification-form h2 {
-        text-align: center;
-    }
+        #notification-form h2 {
+            text-align: center;
+        }
 
-    #notification-container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        position: relative;
-    }
+        #notification-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
 
-    .notification {
-        margin-bottom: 15px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        position: relative;
-        transition: background-color 0.3s ease;
-    }
+        .notification {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
 
-    .notification:hover {
-        background-color: #f9f9f9;
-    }
+        .notification:hover {
+            background-color: #f9f9f9;
+        }
 
-    .notification.unread {
-        background-color: #e6f7ff;
-    }
+        .notification.unread {
+            background-color: #e6f7ff;
+        }
 
-    .notification header {
-        font-size: 18px;
-        margin-bottom: 8px;
-    }
+        .notification header {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
 
-    .notification time {
-        color: #888;
-        font-size: 12px;
-    }
+        .notification time {
+            color: #888;
+            font-size: 12px;
+        }
 
-    #notification-count {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 12px;
-        padding: 5px 10px;
-        border-radius: 50%;
-    }
+        #notification-count {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 50%;
+        }
 
-    select,
-    button {
-        margin-top: 10px;
-    }
+        select,
+        button {
+            margin-top: 10px;
+        }
 
-    #notification-form {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-    }
+        #notification-form {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
 
-    #notification-form label {
-        display: block;
-        margin-bottom: 8px;
-    }
+        #notification-form label {
+            display: block;
+            margin-bottom: 8px;
+        }
 
-    #notification-form select,
-    #notification-form textarea {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-    }
+        #notification-form select,
+        #notification-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
 
-    #recipient-type {
-        border: 1px solid black;
-    }
+        #recipient-type {
+            border: 1px solid black;
+        }
 
-    #recipient {
-        border: 1px solid black;
-    }
+        #recipient {
+            border: 1px solid black;
+        }
 
-    #notification-message {
-        border: 1px solid black;
-    }
+        #notification-message {
+            border: 1px solid black;
+        }
 
+        #notification-form button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
+        #notification-form button:hover {
+            background-color: #0056b3;
+        }
 
-    #notification-form button {
-        padding: 10px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
+        #pagination-container {
+            margin-top: 20px;
+            text-align: center;
+        }   
 
-    #notification-form button:hover {
-        background-color: #0056b3;
-    }
+        #pagination-container a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        #pagination-container a.active {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #pagination-container a:hover {
+            background-color: #f0f0f0;
+        }
 </style>
 
 <body oncontextmenu='return false' class='snippet-body'>
@@ -182,7 +213,7 @@ if (!$course_result) {
         <br>
         <label for="recipient">Select Recipient:</label>
         <select id="recipient">
-        <option value="All-Course">All Course</option>
+        <option value="0">All Course</option>
             <?php
             
             // Loop through the results and generate options dynamically
@@ -209,9 +240,9 @@ if (!$course_result) {
                 
                 // Loop through the result set and add each notification to the HTML
                 while ($row = $notification_result->fetch_assoc()) {
-                    $adminName = $row['admin_name'];
+                    $adminName = isset($row['admin_name']) ? $row['admin_name'] : 'All Admin';
                     $message = $row['message'];
-                    $courseName = $row['course_name'];
+                    $courseName = isset($row['course_name']) ? $row['course_name'] : 'All Course';
                     
                     // Add HTML for the current notification to the $notifications_html string
                     $notifications_html .= "<div class='notification'><strong> $adminName: </strong> ($courseName) $message</div>";
@@ -227,6 +258,21 @@ if (!$course_result) {
                 echo "No notifications found";
             }
             ?>
+
+        <!-- Pagination links -->
+        <div id="pagination-container">
+            <?php if ($page > 1): ?>
+                <a href='notification.php?page=<?php echo ($page - 1); ?>'>&laquo; Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href='notification.php?page=<?php echo $i; ?>' <?php if ($i == $page) echo 'class="active"'; ?>><?php echo $i; ?></a>
+            <?php endfor; ?>
+
+            <?php if ($page < $total_pages): ?>
+                <a href='notification.php?page=<?php echo ($page + 1); ?>'>Next &raquo;</a>
+            <?php endif; ?>
+        </div>
     </div>
 
 <!-- Custom JS file link -->
@@ -234,6 +280,4 @@ if (!$course_result) {
 <?php include 'sidebar.php'; ?>
 
 </body>
-
-
 </html>

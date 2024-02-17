@@ -1755,3 +1755,26 @@ section{
 
 }
 
+#pagination-container {
+   margin-top: 20px;
+}
+
+   #pagination-container a {
+       display: inline-block;
+       padding: 5px 10px;
+       margin-right: 5px;
+       border: 1px solid #ccc;
+       border-radius: 5px;
+       text-decoration: none;
+       color: #333;
+   }
+
+   #pagination-container a.active {
+       background-color: #007bff;
+       color: #fff;
+   }
+
+   #pagination-container a:hover {
+       background-color: #f0f0f0;
+   }
+
