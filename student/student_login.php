@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $row = $result->fetch_assoc();
                 $student_id = $row['id'];
 
-                // Fetch coursename from stdcourse table for the particular student
-                $coursename_query = "SELECT coursename FROM stdcourse WHERE student_id = '$student_id'";
-                $coursename_result = $conn->query($coursename_query);
+                // // Fetch coursename from stdcourse table for the particular student
+                // $coursename_query = "SELECT coursename FROM stdcourse WHERE student_id = '$student_id'";
+                // $coursename_result = $conn->query($coursename_query);
 
                 if ($coursename_result && $coursename_result->num_rows == 1) {
                     // Coursename found, set it in the session
