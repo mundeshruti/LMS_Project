@@ -1,4 +1,8 @@
 <?php
+// Start the session
+session_start();
+
+// Include the database connection file
 include 'connect_db.php';
 
 $errors = array(); // Initialize an array to store validation errors
@@ -23,15 +27,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-
         if ($result) {
-            if ($result->num_rows > 0) {
+            if ($result->num_rows == 1) {
+                // User credentials are correct
                 $row = $result->fetch_assoc();
+                $admin_id = $row['id'];
+
+                // Fetch coursename from stdcourse table for the particular student
+                $coursename_query = "SELECT course_name FROM create_course WHERE admin_id = '$admin_id'";
+                $coursename_result = $conn->query($coursename_query);
+
+                if ($coursename_result && $coursename_result->num_rows == 1) {
+                    // Coursename found, set it in the session
+                      // Coursename found, set it in the session
+                $coursename_row = $coursename_result->fetch_assoc();
+                $coursename = $coursename_row['course_name'];
+                $_SESSION['course_name'] = $coursename;
+                echo "Coursename retrieved: " . $coursename; // Debug statement
+                } else {
+                    // Coursename not found for the student
+                    $errors[] = "No courses found for the student.";
+                    echo "No courses found for the student."; // Debug statement
+                }
+       
 
                 // Verify the entered password
                 $trimmedPassword = trim($password);
                 if (password_verify($trimmedPassword, $row['password'])) {
-                    session_start();
                     $_SESSION['user_id'] = $row['id'];
                     $_SESSION['user_name'] = $row['name'];
                     $_SESSION['user_email'] = $row['email'];
@@ -59,3 +81,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 // Redirect in case of errors
 echo "<script>window.location = 'index.html';</script>";
+?>

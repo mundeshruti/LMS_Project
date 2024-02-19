@@ -10,36 +10,41 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$coursename = $_POST['coursename'];
-$date = $_POST['date'];
-$coursedescription = $_POST['coursedescription'];
-$courselink = $_POST['courselink'];
-$practicallink = $_POST['practicallink'];
+$name = $_POST['name'];
+$course_name = $_POST['course_name'];
 
-// Check if the course already exists in stdcourse table
-$check_sql = "SELECT id FROM stdcourse WHERE coursename = '$coursename' LIMIT 1";
-$check_result = $conn->query($check_sql);
+// Check if the course is already assigned to the student
+$sql_check = "SELECT * FROM admin_student_course WHERE name = '$name' AND course_name = '$course_name'";
+$result_check = $conn->query($sql_check);
 
-// Fetch student IDs with the selected course name
-$sql = "SELECT id FROM register_student WHERE profession = '$coursename'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $student_id = $row['id'];
-        // Insert course details for each student with the selected course name
-        $insert_sql = "INSERT INTO stdcourse (student_id, coursename, date, coursedescription, courselink, practicallink) VALUES ('$student_id', '$coursename', '$date', '$coursedescription', '$courselink', '$practicallink')";
-        if ($conn->query($insert_sql) !== TRUE) {
-            echo "Error assigning course: " . $conn->error;
-        }
-    }
+if ($result_check && $result_check->num_rows > 0) {
+    // If the course is already assigned to the student, display a message
+    echo "<script>alert('The course is already assigned to this student.')</script>";
 } else {
-    echo "No students found for the selected course name.";
+    // Get the ID of the student from the register_student table
+    $sql_student_id = "SELECT id FROM register_student WHERE name = '$name'";
+    $result_student_id = $conn->query($sql_student_id);
+
+    if ($result_student_id->num_rows > 0) {
+        $row = $result_student_id->fetch_assoc();
+        $student_id = $row['id'];
+
+        // Insert the student ID and course name into the admin_student_course table
+        $sql = "INSERT INTO admin_student_course (student_id, name, course_name) VALUES ('$student_id', '$name', '$course_name')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('The course assigned to this student.')</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "Student not found.";
+    }
 }
 
 $conn->close();
 ?>
 <script>
-   alert("Course assigned to students successfully.");
-   window.location.href = "stdcourses.php";
+   
+    window.location.href = "stdcourses.php";
 </script>
