@@ -1,20 +1,24 @@
 <?php
+session_start();
+
 include 'connect_db.php';
 
 $errors = array(); // Initialize an array to store validation errors
 $isValid = true; // Initialize a variable to track overall validation status
 
+$adminId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '-1';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validate inputs
     $name = validateInput($_POST['name']);
-    $profession = validateInput($_POST['profession']);
     $email = validateEmail($_POST['email']);
     $password = validatePassword($_POST['pass']);
     $confirmPassword = validatePassword($_POST['cpass']);
+    $course = ($_POST['course']);
 
 
     // Additional validation (you can customize this based on your requirements)
-    if (empty($name) || empty($profession) || empty($email) || empty($password) || empty($confirmPassword)) {
+    if (empty($name) || empty($course) || empty($email) || empty($password) || empty($confirmPassword)) {
         $errors[] = "All fields are required.";
         $isValid = false; // Set validation status to false
     }
@@ -29,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Sanitize inputs before using in SQL query
         global $conn; // Access the global connection object
         $name = $conn->real_escape_string($name);
-        $profession = $conn->real_escape_string($profession);
+        $course = $conn->real_escape_string($course);
         $email = $conn->real_escape_string($email);
 
         $trimmedPassword = trim($_POST['pass']);
@@ -42,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
 
         // Insert user data into the database
-        $sql = "INSERT INTO register_student (name, profession, email, password, image_path) VALUES ('$name', '$profession', '$email', '$hashedPassword', '$target_file')";
+        $sql = "INSERT INTO register_student (name, email, password, image_path, created_by, active_course_id) VALUES ('$name', '$email', '$hashedPassword', '$target_file', '$adminId', '$course')";
 
         if ($conn->query($sql) === TRUE) {
             echo "<script>alert('Registration successful!');</script>";
@@ -58,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Display validation errors using JavaScript alert
         echo "<script>alert('" . implode("\\n", $errors) . "');</script>";
-        echo "<script>window.location = 'register.html';</script>";
+        echo "<script>window.location = 'register.php';</script>";
     }
 }
 

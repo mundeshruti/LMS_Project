@@ -34,7 +34,7 @@
          <div class="box offer">
            <!-- <h3 style="font-size: 20px;">Add a student</h3>Newly created -->
            <!-- <p>..........</p> -->
-           <a href="register.html" class="inline-btn">Add New Student</a>
+           <a href="register.php" class="inline-btn">Add New Student</a>
         </div>
         </div>
        

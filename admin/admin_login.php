@@ -34,21 +34,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $admin_id = $row['id'];
 
                 // Fetch coursename from stdcourse table for the particular student
-                $coursename_query = "SELECT course_name FROM create_course WHERE admin_id = '$admin_id'";
-                $coursename_result = $conn->query($coursename_query);
+                // $coursename_query = "SELECT course_name FROM create_course WHERE admin_id = '$admin_id'";
+                // $coursename_result = $conn->query($coursename_query);
 
-                if ($coursename_result && $coursename_result->num_rows == 1) {
-                    // Coursename found, set it in the session
-                      // Coursename found, set it in the session
-                $coursename_row = $coursename_result->fetch_assoc();
-                $coursename = $coursename_row['course_name'];
-                $_SESSION['course_name'] = $coursename;
-                echo "Coursename retrieved: " . $coursename; // Debug statement
-                } else {
-                    // Coursename not found for the student
-                    $errors[] = "No courses found for the student.";
-                    echo "No courses found for the student."; // Debug statement
-                }
+                // if ($coursename_result && $coursename_result->num_rows == 1) {
+                //     // Coursename found, set it in the session
+                //       // Coursename found, set it in the session
+                // $coursename_row = $coursename_result->fetch_assoc();
+                // $coursename = $coursename_row['course_name'];
+                // $_SESSION['course_name'] = $coursename;
+                // echo "Coursename retrieved: " . $coursename; // Debug statement
+                // } else {
+                //     // Coursename not found for the student
+                //     $errors[] = "No courses found for the student.";
+                //     echo "No courses found for the student."; // Debug statement
+                // }
        
 
                 // Verify the entered password

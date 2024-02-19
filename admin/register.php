@@ -28,17 +28,36 @@
             <div class="col">
                <p>Name <span>*</span></p>
                <input type="text" name="name" placeholder="enter your name" maxlength="50" required class="box">
-               <p>Skills <span>*</span></p>
-               <select name="profession" class="box" required>
-                  <option value="" disabled selected>-- select your skill</option>
+               <p> Course <span>*</span></p>
+               <select name="course" class="box" required>
+               <option value="" disabled selected>select Course</option>
+                  <!-- <option value="" disabled selected>select Course</option>
                   <option value="developer">web developer</option>
                   <option value="front end developer">front end developer</option>
                   <option value="backend developer">backend developer</option>
                   <option value="full stack developer">full stack developer</option>
                   <option value="ML">ML</option>
-                  <option value="Analyst">Analyst</option>
+                  <option value="Analyst">Analyst</option> -->
+
+                  <?php
+                     // Include database connection
+                     include 'connect_db.php';
+
+                     // Fetch course options from the database
+                     $course_query = "SELECT course_id id, course_name coursename FROM create_course";
+                     $course_result = $conn->query($course_query);
+
+                     // Loop through the results and generate options dynamically
+                     while ($row = $course_result->fetch_assoc()) {
+                        echo '<option value="' . $row['id'] . '">' . $row['coursename'] . '</option>';
+                     }
+
+                     // Close database connection
+                     $conn->close();
+                  ?>
 
                </select>
+               
                <p>Email <span>*</span></p>
                <input type="email" name="email" placeholder="enter your email" maxlength="40" required class="box">
             </div>
