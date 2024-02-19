@@ -36,11 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 if ($coursename_result && $coursename_result->num_rows == 1) {
                     // Coursename found, set it in the session
-                      // Coursename found, set it in the session
-    $coursename_row = $coursename_result->fetch_assoc();
-    $coursename = $coursename_row['coursename'];
-    $_SESSION['coursename'] = $coursename;
-    echo "Coursename retrieved: " . $coursename; // Debug statement
+                    // Coursename found, set it in the session
+                    $coursename_row = $coursename_result->fetch_assoc();
+                    $coursename = $coursename_row['coursename'];
+                    $_SESSION['coursename'] = $coursename;
+                    echo "Coursename retrieved: " . $coursename; // Debug statement
                 } else {
                     // Coursename not found for the student
                     $errors[] = "No courses found for the student.";

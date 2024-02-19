@@ -1,49 +1,64 @@
 <?php
-session_start();
+include 'connect_db.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "lms_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-   die("Connection failed: " . $conn->connect_error);
-}
-
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   // Check if student_id is set in $_SESSION
-   if (isset($_POST['course_id']) && isset($_SESSION['st_id'])) {
-      // Retrieve data from the form
-      $course_id = $_POST['course_id'];
-      $student_id = $_SESSION['st_id'];
-      
-      // Process the uploaded file
-      $target_dir = "uploads/";
-      $target_file = $target_dir . basename($_FILES["uploadfile"]["name"]);
-      
-      if (move_uploaded_file($_FILES["uploadfile"]["tmp_name"], $target_file)) {
-         // File uploaded successfully, update the database
-         $sql = "UPDATE stdcourse SET is_completed = 1, submission_file = '$target_file' WHERE id = $course_id AND student_id = $student_id";
-         
-         if ($conn->query($sql) === TRUE) {
-             // Update successful
-             echo "<script>alert('Course submitted successfully!');</script>";
-             // Redirect to courses.php after showing the alert
-             echo "<script>window.location = 'courses.php';</script>";
-             exit; // Ensure no more output is sent
-         } else {
-            echo "Error updating record: " . $conn->error;
-         }
-      } else {
-         echo "Sorry, there was an error uploading your file.";
-      }
-   } else {
-      // Handle case where course_id or student_id is not set
-      echo "Course ID or Student ID is not set.";
-   }
+    // Get form data
+    $courseId = $_POST["course_id"]; // Assuming you have a hidden input field in your form with name 'course_id'
+    $courseName = ""; // Variable to store the course name
+
+    // Fetch the course name associated with the submitted course ID
+    $sql = "SELECT course_name FROM course_details WHERE id = '$courseId'";
+    $result = $conn->query($sql);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $courseName = $row['course_name'];
+    } else {
+        echo "Error: Could not fetch course name.";
+        exit(); // Stop further execution
+    }
+    
+    // Handle file upload
+    $targetDirectory = "uploads/"; // Directory where uploaded files will be saved
+    $targetFile = $targetDirectory . basename($_FILES["uploadfile"]["name"]);
+    $uploadOk = 1;
+    $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Check file size
+    if ($_FILES["uploadfile"]["size"] > 2000000) {
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow only certain file formats
+    if (!in_array($fileType, array("pdf", "doc", "docx", "jpg", "jpeg", "png"))) {
+        echo "Sorry, only PDF, DOC, DOCX, JPG, JPEG and PNG files are allowed.";
+        $uploadOk = 0;
+    }
+
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    } else {
+        // If everything is ok, try to upload file
+        if (move_uploaded_file($_FILES["uploadfile"]["tmp_name"], $targetFile)) {
+            // File uploaded successfully, now update the database
+            $updateSql = "UPDATE course_details SET uploaded_file = '$targetFile', completed = 1 WHERE id = $courseId";
+
+            if ($conn->query($updateSql) === TRUE) {
+                // Alert user and redirect with course name parameter
+                echo "<script>alert('File uploaded successfully.'); window.location.href = 'view_create_course.php?name=$courseName';</script>";
+                exit(); // Stop further execution
+            } else {
+                echo "Error updating record: " . $conn->error;
+            }
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
 }
 
+// Close the database connection
 $conn->close();
 ?>

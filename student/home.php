@@ -9,7 +9,8 @@ $st_name = isset($_SESSION['st_name']) ? $_SESSION['st_name'] : '';
 $user_email = isset($_SESSION['st_email']) ? $_SESSION['st_email'] : '';
 $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
