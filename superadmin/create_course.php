@@ -34,7 +34,14 @@
                 <textarea id="course_description" name="course_description" rows="4" required></textarea>
 
                 <label for="course_duration">Course Duration:</label>
-                <input type="text" id="course_duration" name="course_duration" required>
+<select id="course_duration" name="course_duration" required>
+    <?php
+                    for ($i = 1; $i <= 30; $i++) {
+                        echo "<option value='$i'>$i day" . ($i > 1 ? "s" : "") . "</option>";
+                    }
+                    ?>
+                </select>
+                <p id="selected_duration"></p>
 
                 <button class="inline-btn" type="submit" name="create_course">Create Course</button>
 
@@ -46,8 +53,7 @@
         
         // Check if the form is submitted
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_course'])) {
-            // Include your database connection code here
-            // For example: include 'db_connection.php';
+            
 
             // Retrieve form data
             $courseName = $_POST["course_name"];
@@ -73,8 +79,6 @@
             // Close the database connection
             $conn->close();
         }
-
-        // Fetch and display the list of courses by course_id
         
         ?>
 
@@ -82,6 +86,16 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script>
+    // JavaScript to display the selected duration
+    const courseDurationSelect = document.getElementById('course_duration');
+    const selectedDurationDisplay = document.getElementById('selected_duration');
+
+    courseDurationSelect.addEventListener('change', function() {
+        const selectedDuration = this.value;
+        // selectedDurationDisplay.textContent = `${selectedDuration} day${selectedDuration > 1 ? 's' : ''}`;
+    });
+</script>
 
 </body>
 

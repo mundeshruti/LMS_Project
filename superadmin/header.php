@@ -2,10 +2,6 @@
   <header class="header">
         <section class="flex">
             <a href="home.php" class="logo">RSL Solution</a>
-            <!-- <form action="search.html" method="post" class="search-form">
-                <input type="text" name="search_box" required placeholder="search notification..." maxlength="100">
-                <button type="submit" class="fas fa-search"></button>
-            </form> -->
             <div class="icons">
                 <div id="unread-count" class="fa-regular fa-bell"></div>
                 <div id="menu-btn" class="fas fa-bars"></div>

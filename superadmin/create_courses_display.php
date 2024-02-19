@@ -14,6 +14,39 @@
     <link rel="stylesheet" href="css/style.css">
 
 </head>
+<style>
+    /* Button styles */
+.button {
+    background-color:var(--main-color);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.button:focus{
+    outline: none;
+}
+.delete-button,.delete-form button{
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: red;
+}
+
+    </style>
 
 <body>
 
@@ -22,7 +55,7 @@
     <section class="teachers">
         <div class="box-container">
             <form action="" method="post" class="search-tutor">
-                <input type="text" name="search_box" placeholder="Search Courses here..." maxlength="100">
+                <input type="text" name="search_box" placeholder="Search Courses Here..." maxlength="100">
                 <button type="submit" class="fas fa-search" name="search_tutor"></button>
             </form>
         </div>
@@ -64,16 +97,20 @@
                                 </h3>
                                 <span>Duration:
                                     <?php echo $row['course_duration']; ?>
+                                    <span>Days</span>
                                 </span>
                             </div>
                         </div>
                         <div class="tutor">
-                            <a href="view_create_course.php?id=<?php echo $row['course_id']; ?>" class="inline-btn">View</a>
+                            <a href="view_create_course.php?id=<?php echo $row['course_id']; ?>" class="button">View</a>
+                            <a href="edit_course.php?id=<?php echo $row['course_id']; ?>" class="button" style="background-color:var(--main-color);">Edit</a>
                             <form method="post" class="delete-form">
                                 <input type="hidden" name="course_id_to_delete" value="<?php echo $row['course_id']; ?>">
-                                <button type="submit" name="delete_course" class="inline-delete-btn"
+                                <button type="submit" name="delete_course" class="delete-button"
                                     onclick="return confirm('Are you sure you want to delete this course?')">Delete</button>
+
                             </form>
+                          
                         </div>
                     </div>
                     <?php

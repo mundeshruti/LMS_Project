@@ -21,9 +21,10 @@
     <?php include 'header.php'; ?>
     <div id="courseAssignment">
         <form action="submit_course_details.php" method="post">
-            <h2>Course Content</h2>
+            <h2>course content</h2>
             <label for="course_name">Course Name:</label>
             <select id="course_name" name="course_name">
+                <option value="">Select Course Name</option> <!-- Default option -->
                 <?php
                 // Include the file to establish database connection
                 include 'connect_db.php';
@@ -52,8 +53,28 @@
             <label for="course_day">Select Day:</label>
             <select id="course_day" name="course_day" required>
                 <?php
-                for ($i = 1; $i <= 30; $i++) {
-                    echo "<option value='$i'>$i</option>";
+                // Include the file to establish database connection
+                include 'connect_db.php';
+
+                // Check if course_name is set
+                if (isset($_POST['course_name'])) {
+                    // Retrieve the selected course name
+                    $selected_course_name = $_POST['course_name'];
+
+                    // SQL query to fetch course duration for the selected course name
+                    $sql = "SELECT course_duration FROM create_course WHERE course_name = '$selected_course_name'";
+                    $result = $conn->query($sql);
+
+                    // If the result is found
+                    if ($result && $result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $course_duration = $row['course_duration'];
+
+                        // Generate options for course_day dropdown based on course duration
+                        for ($i = 1; $i <= $course_duration; $i++) {
+                            echo "<option value='$i'>$i</option>";
+                        }
+                    }
                 }
                 ?>
             </select>
@@ -72,6 +93,42 @@
 
     </div>
     <?php include 'sidebar.php'; ?>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Update course_day dropdown when course_name is selected
+        $('#course_name').on('change', function () {
+            var selectedCourseName = $(this).val();
+
+            // AJAX request to fetch course duration for the selected course name
+            $.ajax({
+                url: 'fetch_course_duration.php',
+                method: 'POST',
+                data: {
+                    course_name: selectedCourseName
+                },
+                success: function (response) {
+                    // Parse the JSON response
+                    var courseDuration = JSON.parse(response).course_duration;
+
+                    // Generate options for course_day dropdown based on course duration
+                    var courseDayDropdown = $('#course_day');
+                    courseDayDropdown.empty();
+                    for (var i = 1; i <= courseDuration; i++) {
+                        courseDayDropdown.append($('<option>', {
+                            value: i,
+                            text: i
+                        }));
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
