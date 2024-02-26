@@ -9,12 +9,7 @@ $st_id = isset($_SESSION['st_id']) ? $_SESSION['st_id'] : '';
 error_log("Received data: student_id=$st_id");
 
 // Insert data into the notification_records table (replace 'your_connection_details' with your actual database connection details)
-$conn = new mysqli("localhost", "root", "root123", "lms_db");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+include 'connect_db.php';
 
 $query = "update notification_records set is_read = 1 where student_id = $st_id and is_read = 0;";
 

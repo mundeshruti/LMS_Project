@@ -23,6 +23,7 @@ if (isset($_GET['name'])) {
         ?>
         <!DOCTYPE html>
         <html lang="en">
+
         <head>
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,18 +33,18 @@ if (isset($_GET['name'])) {
             <link rel="stylesheet" href="css/style.css">
         </head>
         <style>
-             .button {
-               background-color: #04AA6D;
-               border: none;
-               color: white;
-               padding: 5px 10px;
-               text-align: center;
-               text-decoration: none;
-               display: inline-block;
-               font-size: 12px;
-               cursor: pointer;
+            .button {
+                background-color: #04AA6D;
+                border: none;
+                color: white;
+                padding: 5px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer;
             }
-            
+
             /* Style for tutor div */
             .tutor {
                 padding: 10px;
@@ -72,33 +73,46 @@ if (isset($_GET['name'])) {
             .table th {
                 background-color: #f2f2f2;
             }
+
             /* Responsive CSS */
-@media only screen and (max-width: 768px) {
-    /* Adjustments for smaller screens */
-    .tutor {
-        padding: 5px; /* Reduce padding */
-    }
+            @media only screen and (max-width: 768px) {
 
-    .table-container {
-        font-size: medium; /* Decrease font size */
-    }
+                /* Adjustments for smaller screens */
+                .tutor {
+                    padding: 5px;
+                    /* Reduce padding */
+                }
 
-    .table th,
-    .table td {
-        padding: 6px; /* Adjust padding */
-        font-size: small; /* Decrease font size */
-    }
-}
+                .table-container {
+                    font-size: medium;
+                    /* Decrease font size */
+                }
+
+                .table th,
+                .table td {
+                    padding: 6px;
+                    /* Adjust padding */
+                    font-size: small;
+                    /* Decrease font size */
+                }
+            }
         </style>
+
         <body>
             <?php include 'header.php'; ?>
             <section class="teacher-profile">
                 <h1 class="heading">Course Details</h1>
                 <div class="details">
                     <div class="tutor" style="text-align: left;">
-                        <h3>Course Name: <span><?php echo $courseDetails['course_name']; ?></span></h3>
-                        <h3>Course Description: <span><?php echo $courseDetails['course_description']; ?></span></h3>
-                        <h3>Course Duration: <span><?php echo $courseDetails['course_duration'].' Days'; ?></span></h3>
+                        <h3>Course Name: <span>
+                                <?php echo $courseDetails['course_name']; ?>
+                            </span></h3>
+                        <h3>Course Description: <span>
+                                <?php echo $courseDetails['course_description']; ?>
+                            </span></h3>
+                        <h3>Course Duration: <span>
+                                <?php echo $courseDetails['course_duration'] . ' Days'; ?>
+                            </span></h3>
                     </div>
                 </div>
                 <!-- Table for course details -->
@@ -119,7 +133,7 @@ if (isset($_GET['name'])) {
                             $courseName = $courseDetails['course_name'];
                             $detailsSql = "SELECT * FROM course_details WHERE course_name = '$courseName' ORDER BY completed ASC, course_day ASC";
                             $detailsResult = $conn->query($detailsSql);
-                            
+
                             // Variable to track if unfinished course detail has been displayed
                             $unfinishedDisplayed = false;
 
@@ -132,10 +146,20 @@ if (isset($_GET['name'])) {
                                         if (!$unfinishedDisplayed) {
                                             ?>
                                             <tr>
-                                                <td><?php echo $details['course_day']; ?></td>
-                                                <td><?php echo $details['course_description']; ?></td>
-                                                <td><?php echo $details['course_link']; ?></td>
-                                                <td><?php echo $details['practical_link']; ?></td>
+                                                <td>
+                                                    <?php echo $details['course_day']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $details['course_description']; ?>
+                                                </td>
+                                                <td><a href="<?php echo $details['course_link']; ?>" target="_blank">
+                                                        <?php echo $details['course_link']; ?>
+                                                    </a></td>
+                                                <td><a href="<?php echo $details['practical_link']; ?>" target="_blank">
+                                                        <?php echo $details['practical_link']; ?>
+                                                    </a></td>
+
+
                                                 <td>
                                                     <form action="submit_course.php" method="post" enctype="multipart/form-data">
                                                         <input type="hidden" name="course_id" value="<?php echo $details["id"]; ?>">
@@ -151,10 +175,19 @@ if (isset($_GET['name'])) {
                                         // Display completed course details
                                         ?>
                                         <tr>
-                                            <td><?php echo $details['course_day']; ?></td>
-                                            <td><?php echo $details['course_description']; ?></td>
-                                            <td><?php echo $details['course_link']; ?></td>
-                                            <td><?php echo $details['practical_link']; ?></td>
+                                            <td>
+                                                <?php echo $details['course_day']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $details['course_description']; ?>
+                                            </td>
+                                            <td><a href="<?php echo $details['course_link']; ?>" target="_blank">
+                                                    <?php echo $details['course_link']; ?>
+                                                </a></td>
+                                            <td><a href="<?php echo $details['practical_link']; ?>" target="_blank">
+                                                    <?php echo $details['practical_link']; ?>
+                                                </a></td>
+
                                             <td>
                                                 Completed
                                                 <form action="edit_course.php" method="post">
@@ -177,6 +210,7 @@ if (isset($_GET['name'])) {
             <script src="js/script.js"></script>
             <?php include 'sidebar.php'; ?>
         </body>
+
         </html>
         <?php
     }

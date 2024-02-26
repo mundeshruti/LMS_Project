@@ -1,15 +1,15 @@
 <?php
 session_start();
-
-// Assuming you have a database connection established in 'db_connection.php'
+// Include the database connection file
 include 'connect_db.php';
 
+// Retrieve user information from session
 $st_id = $_SESSION['st_id'];
 $st_name = isset($_SESSION['st_name']) ? $_SESSION['st_name'] : '';
 $user_email = isset($_SESSION['st_email']) ? $_SESSION['st_email'] : '';
 $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +25,7 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
 </head>
 
 <body>
+<!-- <h1>Welcome, <?php echo $st_name; ?></h1> -->
    <?php include 'header.php'; ?>
 
    <section class="practical">

@@ -1,16 +1,20 @@
 <?php
 include 'connect_db.php';
+session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if course ID is provided
     if (isset($_POST['course_id'])) {
         $courseId = $_POST['course_id'];
 
-        // Fetch the existing file details from the database for the given course ID
-        $sql = "SELECT * FROM course_details WHERE id = '$courseId'";
-        $result = $conn->query($sql);
+        // Prepare and bind the SQL query with a placeholder for the course ID
+        $sql = "SELECT * FROM course_details WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $courseId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($result && $result->num_rows > 0) {
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             // Display the form with the existing file details
             ?>
@@ -69,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </head>
 
             <body>
-                <?php include 'header.php'; ?>
+            <?php include 'header.php'; ?>
                 <div class="container">
                     <h2>Edit File</h2>
                     <form action="update_course.php" method="post" enctype="multipart/form-data">
@@ -81,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <button type="submit">Update</button>
                     </form>
                 </div>
-                <?php include 'sidebar.php'; ?>
+              
             </body>
             </html>
             <?php
@@ -95,3 +99,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Invalid request method.";
 }
 ?>
+ <?php include 'sidebar.php'; ?>

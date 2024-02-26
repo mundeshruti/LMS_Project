@@ -30,37 +30,7 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
 
 <body>
 
-   <header class="header">
-
-      <section class="flex">
-
-         <a href="home.php" class="logo">RSL Solution.</a>
-
-         <form action="search.html" method="post" class="search-form">
-            <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
-            <button type="submit" class="fas fa-search"></button>
-         </form>
-
-         <div class="icons">
-            <div id="notification-btn" class="fa-regular fa-bell"></div>
-            <div id="menu-btn" class="fas fa-bars"></div>
-            <div id="search-btn" class="fas fa-search"></div>
-            <div id="user-btn" class="fas fa-user"></div>
-            <div id="toggle-btn" class="fas fa-sun"></div>
-         </div>
-
-         <div class="profile">
-            <!--<img src="<?php echo $image; ?>" class="image" alt="User Image">-->
-            <p class="role"><?php echo $st_name; ?></p>
-            <a href="profile.php" class="btn">View Profile</a>
-            <div class="flex-btn">
-               <a href="http://localhost/LMS/admin/login.html" class="option-btn">Logout</a>
-            </div>
-         </div>
-
-      </section>
-
-   </header>
+   <?php include "header.php ";?>
 
    <section class="user-profile">
 
@@ -69,7 +39,13 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
       <div class="info">
 
          <div class="user">
-            <img src="<?php echo $_SESSION['st_image']; ?>" class="image rounded-circle" alt="User Image">
+         <?php
+             $imagePath = "../admin/uploads/" . basename($user_image);
+             if (file_exists($imagePath)) {
+                 echo "<img src=\"$imagePath\" class=\"image\" alt=\"$st_name's Profile Image\">";
+             } else {
+                 echo "Image not found.";
+             }?>
             <p class="role"><?php echo $st_name; ?></p>
 
             <!-- Add the email information here -->

@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "lms_db";
+  $servername = "localhost";
+  $username = "u105084344_LMS";
+  $password = "Lms@4321";
+  $dbname = "u105084344_LMS";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

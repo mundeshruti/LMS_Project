@@ -1777,3 +1777,31 @@ section{
    #pagination-container a:hover {
        background-color: #f0f0f0;
    }
+
+   #notification-container {
+      max-height: 300px; /* Example maximum height */
+      overflow-y: auto; /* Add vertical scrollbar if needed */
+      background-color: #fff; /* Background color */
+      border: 1px solid #ccc; /* Border */
+      padding: 10px; /* Padding */
+      font-size: 16px;
+      text-align:left;
+  }
+  
+  /* CSS for individual notifications within the container */
+  .notification {
+      margin-bottom: 10px; /* Bottom margin between notifications */
+      padding: 5px; /* Padding */
+      border-bottom: 1px solid #eee; /* Border bottom */
+  }
+  
+  /* Style for the close button */
+  .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #888;
+  }
+  
