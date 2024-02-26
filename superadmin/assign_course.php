@@ -1,14 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "root123";
-$dbname = "lms_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if (!$conn) {
-    echo "Connection failed: " . mysqli_connect_error();
-    exit;
-}
+include 'connect_db.php';
 $coursename = $_POST['coursename'];
 $coursedescription = $_POST['coursedescription'];
 $courselink=$_POST['courselink'];

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>teachers</title>
+    <title>Admins</title>
 
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -13,20 +13,85 @@
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
 
+    <!-- Other meta tags and stylesheets -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .success-popup {
+            position: fixed;
+            font-size: 20px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+
+        }
+
+        .error-message {
+            /* background-color: #f44336; */
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 14px;
+            /* Center the text horizontally */
+        }
+
+        .email-container {
+            width: 200px;
+            /* Adjust the width as needed */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* Display ellipsis (...) for overflowing text */
+            white-space: nowrap;
+            /* Prevent text from wrapping */
+        }
+    </style>
+
+
 </head>
 
 <body>
     <?php include 'header.php'; ?>
     <section class="teachers">
         <h1 class="heading">Prominent Admin</h1><!--Newly created-->
+
         <form action="" method="post" class="search-tutor">
-            <input type="text" name="search_box" placeholder="search Admin..." maxlength="100">
+            <input type="text" name="search_box" placeholder="Search Courses Here..." maxlength="100">
             <button type="submit" class="fas fa-search" name="search_tutor"></button>
         </form>
+
+        <!-- <div id="searchResult"></div> -->
+
+        <script>
+            $(document).ready(function () {
+                $('#searchBox').on('input', function () {
+                    $('#searchForm').submit();
+                });
+
+                $('#searchForm').on('submit', function (e) {
+                    e.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'search.php', // Your PHP script to handle search
+                        data: formData,
+                        success: function (response) {
+                            $('#searchResult').html(response);
+                        }
+                    });
+                });
+            });
+        </script>
         <div class="box-container">
 
             <div class="box offer">
-                <h3>Add a Admins</h3><!--Newly created-->
+                <h3>Add Admin</h3><!--Newly created-->
                 <p>..........</p>
                 <a href="register.php" class="inline-btn">Add Admin</a>
             </div>
@@ -42,7 +107,18 @@
                 $result = $conn->query($sql);
 
                 if ($result) {
+
                     $successMessage = "Admin deleted successfully.";
+                    echo "<script>
+                            $(document).ready(function() {
+                                var popup = $('<div class=\"success-popup\">$successMessage</div>');
+                                $('body').prepend(popup);
+                                setTimeout(function() {
+                                    popup.fadeOut();
+                                }, 3000); // 3000 milliseconds = 3 seconds, adjust as needed
+                            });
+                          </script>";
+
                 } else {
                     $errorMessage = "Error deleting admin: " . $conn->error;
                 }
@@ -73,9 +149,11 @@
                                 <h3>
                                     <?php echo $row['name']; ?>
                                 </h3>
-                                <span>
-                                    <?php echo $row['email']; ?>
-                                </span>
+                                <div class="email-container">
+                                    <span>
+                                        <?php echo $row['email']; ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -96,6 +174,7 @@
                 }
             } else {
                 $errorMessage = "No admins created by the super admin";
+
             }
             ?>
 
@@ -103,13 +182,6 @@
 
         </div>
     </section>
-
-
-    <?php if (isset($successMessage)): ?>
-        <div class="success-message">
-            <?php echo $successMessage; ?>
-        </div>
-    <?php endif; ?>
 
     <?php if (isset($errorMessage)): ?>
         <div class="error-message">
@@ -119,6 +191,7 @@
 
 
     <script src="js/script.js"></script>
+
 
     <?php include 'sidebar.php'; ?>
 

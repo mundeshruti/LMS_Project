@@ -2,11 +2,13 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "lms_db";
+// $username = "u105084344_LMS";
+// $password = "Lms@4321";
+$dbname = "u105084344_LMS";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 ?>

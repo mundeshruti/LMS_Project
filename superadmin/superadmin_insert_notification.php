@@ -9,11 +9,7 @@ $message = $_POST['message'];
 error_log("Received data: admin_id=$adminId, course_id=$courseId, message=$message");
 
 // Insert data into the notification_records table (replace 'your_connection_details' with your actual database connection details)
-$conn = new mysqli("localhost", "root", "", "lms_db");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connect_db.php';
 
 if($adminId == 0 && $courseId == 0){
     $student_ids_query = "SELECT id FROM register_student;";

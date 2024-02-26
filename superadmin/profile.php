@@ -25,8 +25,8 @@
 
          <div class="user">
             <img src="images/pic-1.jpg" alt="">
-            <h3>Super Admin name</h3>
-            <p>Super Admin</p>
+            <h3>Super Admin</h3>
+            <p>superadmin@gmail.com</p>
 
          </div>
 

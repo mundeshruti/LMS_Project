@@ -39,7 +39,7 @@ window.onload = function() {
        profile.classList.remove('active');
    }
 
-   document.querySelector('#menu-btn').onclick = () => {
+   document.querySelector('#fas fa-expand').onclick = () => {
        sideBar.classList.toggle('active');
        body.classList.toggle('active');
    };

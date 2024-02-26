@@ -23,9 +23,9 @@
    <div class="box-container">
 
       <div class="box">
-         <h3 class="title">Add a Admin</h3>
+         <h3 class="title">Add Admin</h3>
          <p class="tutor"></p>
-         <a href="teachers.php" class="inline-btn">get started</a>
+         <a href="teachers.php" class="inline-btn">Add Admin</a>
       </div>
 
       <div class="box">
@@ -49,13 +49,13 @@
       <div class="box">
          <h3 class="title">Send Notifications</h3>
          <p class="tutor"></p>
-         <a href="notification.php" class="inline-btn">get started</a>
+         <a href="notification.php" class="inline-btn">Send Notifications</a>
       </div>
 
       <div class="box">
          <h3 class="title">View Reports</h3>
          <p class="tutor"></p>
-         <a href="report.php" class="inline-btn">get started</a>
+         <a href="report.php" class="inline-btn">View Reports</a>
       </div>
 
    </div>

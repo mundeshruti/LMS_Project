@@ -1,6 +1,6 @@
 <?php
 // Example of fetching admin data from the database
-$conn = new mysqli("localhost", "root", "root123", "lms_db");
+include 'connect_db.php';
 
 // Check connection
 if ($conn->connect_error) {
@@ -241,7 +241,7 @@ WHERE is_createdby_superadmin = 1;";
         <label for="notification-message">Notification Message:</label>
         <textarea id="notification-message" rows="5"></textarea>
         <br>
-        <button onclick="sendNotificationBySuperadmin()" class="inline-btn">Send Notification</button>
+        <button onclick="sendNotificationBySuperadmin()" class="inline-btn"  style="display: block; margin: 0 auto;">Send Notification</button>
     </div>
 
     <div id="unread-count" class="unread-count"></div>

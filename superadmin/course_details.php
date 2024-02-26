@@ -88,7 +88,7 @@
             <label for="practical_link">Practical Link:</label>
             <input type="url" id="practical_link" name="practical_link" required>
 
-            <button type="submit" class="inline-btn">Submit</button>
+            <button type="submit" class="inline-btn"   style="display: block; margin: 0 auto;">Submit</button>
         </form>
 
     </div>

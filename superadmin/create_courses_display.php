@@ -12,41 +12,69 @@
 
     <!-- Custom CSS file link -->
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
 <style>
     /* Button styles */
-.button {
-    background-color:var(--main-color);
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.button:focus{
-    outline: none;
-}
-.delete-button,.delete-form button{
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: red;
-}
+    .button {
+        background-color: var(--main-color);
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-    </style>
+    .button:focus {
+        outline: none;
+    }
+
+    .delete-button,
+    .delete-form button {
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        background-color: red;
+    }
+
+    .success-popup {
+        position: fixed;
+        font-size: 20px;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: green;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+    }
+    
+    .error-message {
+            /* background-color: #f44336; */
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 14px;
+            /* Center the text horizontally */
+        }
+</style>
 
 <body>
 
@@ -70,6 +98,16 @@
                 $result = $conn->query($sql);
                 if ($result) {
                     $successMessage = "Course deleted successfully.";
+                    echo "<script>
+                            $(document).ready(function() {
+                                var popup = $('<div class=\"success-popup\">$successMessage</div>');
+                                $('body').prepend(popup);
+                                setTimeout(function() {
+                                    popup.fadeOut();
+                                }, 3000); // 3000 milliseconds = 3 seconds, adjust as needed
+                            });
+                          </script>";
+
                 } else {
                     $errorMessage = "Error deleting course: " . $conn->error;
                 }
@@ -103,14 +141,15 @@
                         </div>
                         <div class="tutor">
                             <a href="view_create_course.php?id=<?php echo $row['course_id']; ?>" class="button">View</a>
-                            <a href="edit_course.php?id=<?php echo $row['course_id']; ?>" class="button" style="background-color:var(--main-color);">Edit</a>
+                            <a href="edit_course.php?id=<?php echo $row['course_id']; ?>" class="button"
+                                style="background-color:var(--main-color);">Edit</a>
                             <form method="post" class="delete-form">
                                 <input type="hidden" name="course_id_to_delete" value="<?php echo $row['course_id']; ?>">
                                 <button type="submit" name="delete_course" class="delete-button"
                                     onclick="return confirm('Are you sure you want to delete this course?')">Delete</button>
 
                             </form>
-                          
+
                         </div>
                     </div>
                     <?php
@@ -123,11 +162,11 @@
         </div>
     </section>
 
-    <?php if (isset($successMessage)): ?>
+    <!-- <?php if (isset($successMessage)): ?>
         <div class="success-message">
             <?php echo $successMessage; ?>
         </div>
-    <?php endif; ?>
+    <?php endif; ?> -->
 
     <?php if (isset($errorMessage)): ?>
         <div class="error-message">
@@ -139,5 +178,42 @@
     <?php include 'sidebar.php'; ?>
 
 </body>
+<script>
+    // Get the search input element
+    var searchBox = document.getElementById('searchBox');
+    // Get the search result container
+    var searchResult = document.getElementById('searchResult');
+
+    // Add input event listener to the search input
+    searchBox.addEventListener('input', function() {
+        // Get the value entered in the search input
+        var searchText = searchBox.value.trim();
+        
+        // Check if the search text is not empty
+        if (searchText !== '') {
+            // Call a function to fetch and display search results
+            fetchSearchResults(searchText);
+        } else {
+            // If the search text is empty, clear the search results
+            searchResult.innerHTML = '';
+        }
+    });
+
+    // Function to fetch and display search results
+    function fetchSearchResults(searchText) {
+        // Here you can use AJAX to fetch search results from the server based on the searchText
+        // For demonstration, let's assume we have searchResults as an array of matching results
+        var searchResults = ['Result 1', 'Result 2', 'Result 3'];
+
+        // Generate HTML for displaying search results
+        var searchResultsHTML = '';
+        searchResults.forEach(function(result) {
+            searchResultsHTML += '<div>' + result + '</div>';
+        });
+
+        // Display search results in the searchResult container
+        searchResult.innerHTML = searchResultsHTML;
+    }
+</script>
 
 </html>

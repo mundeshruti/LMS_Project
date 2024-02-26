@@ -5,11 +5,11 @@ $courseId = $_POST['course_id'];
 $message = $_POST['message'];
 
 // Insert data into the notification_records table (replace 'your_connection_details' with your actual database connection details)
-$conn = new mysqli("localhost", "root", "", "lms_db");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$servername = "localhost";
+$username = "u105084344_LMS";
+$password = "Lms@4321";
+$dbname = "u105084344_LMS";
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 $sql = "INSERT INTO notification_records (admin_id, course_id, message) VALUES ('$adminId', '$courseId', '$message')";
 

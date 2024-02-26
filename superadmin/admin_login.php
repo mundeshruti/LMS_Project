@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php';
+include 'connect_db.php';
 
 $errors = array(); // Initialize an array to store validation errors
 
@@ -58,4 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<script>alert('" . implode("\\n", $errors) . "');</script>";
 }
 // Redirect in case of errors
-echo "<script>window.location = 'index.html';</script>";
+echo "<script>window.location = 'index.php';</script>";

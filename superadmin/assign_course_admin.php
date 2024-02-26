@@ -108,7 +108,7 @@
                 ?>
             </select>
 
-            <button type="submit" class="inline-btn">Assign</button>
+            <button type="submit" class="inline-btn" style="display: block; margin: 0 auto;">Assign</button>
         </form>
 
     </div>

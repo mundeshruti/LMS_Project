@@ -55,23 +55,44 @@
         .table th {
             background-color: #f2f2f2;
         }
+
         /* Responsive CSS */
-@media only screen and (max-width: 768px) {
-    /* Adjustments for smaller screens */
-    .tutor {
-        padding: 5px; /* Reduce padding */
-    }
+        @media only screen and (max-width: 768px) {
 
-    .table-container {
-        font-size: medium; /* Decrease font size */
-    }
+            /* Adjustments for smaller screens */
+            .tutor {
+                padding: 5px;
+                /* Reduce padding */
+            }
 
-    .table th,
-    .table td {
-        padding: 6px; /* Adjust padding */
-        font-size: small; /* Decrease font size */
-    }
-}
+            .table-container {
+                font-size: medium;
+                /* Decrease font size */
+            }
+
+            .table th,
+            .table td {
+                padding: 6px;
+                /* Adjust padding */
+                font-size: small;
+                /* Decrease font size */
+            }
+        }
+
+        .success-popup {
+            position: fixed;
+            font-size: 20px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+
+        }
     </style>
 </head>
 
@@ -87,20 +108,20 @@
                     $courseId = $_GET['id'];
 
                     include 'connect_db.php';
-                    
-                        // // Check if the form is submitted for deletion
-                        if (isset($_POST['delete_course_day'])) {
-                            $courseDayIdToDelete = $_POST['course_day_id_to_delete'];
 
-                            $sql = "DELETE FROM course_details WHERE id = $courseDayIdToDelete";
-                            $result = $conn->query($sql);
+                    // // Check if the form is submitted for deletion
+                    if (isset($_POST['delete_course_day'])) {
+                        $courseDayIdToDelete = $_POST['course_day_id_to_delete'];
 
-                            if ($result) {
-                                $successMessage = "Course day deleted successfully.";
-                            } else {
-                                $errorMessage = "Error deleting course day: " . $conn->error;
-                            }
+                        $sql = "DELETE FROM course_details WHERE id = $courseDayIdToDelete";
+                        $result = $conn->query($sql);
+
+                        if ($result) {
+                            $successMessage = "Course day deleted successfully.";
+                        } else {
+                            $errorMessage = "Error deleting course day: " . $conn->error;
                         }
+                    }
 
                     // Query to fetch course details
                     $courseSql = "SELECT * FROM create_course WHERE course_id = $courseId";
@@ -159,14 +180,22 @@
                                                     <span class="icon-container">
                                                         <a href="edit_course_day.php?id=<?php echo $details['id']; ?>"><i
                                                                 class="fas fa-edit"></i></a>
-                                                        
-                                                        <form method="post" class="delete-form">
+
+                                                        <form method="post" class="delete-form"
+                                                            onsubmit="return confirm('Are you sure you want to delete this course day?')">
                                                             <input type="hidden" name="course_day_id_to_delete"
                                                                 value="<?php echo $details['id']; ?>">
                                                             <button type="submit" name="delete_course_day" class="fa-solid fa-trash"
-                                                                value="<?php echo $details['id']; ?>"
-                                                                onclick="return confirm('Are you sure you want to delete this course day?')"></button>
+                                                                value="<?php echo $details['id']; ?>"></button>
                                                         </form>
+
+                                                        <script>
+                                                            // Check if the request is a POST request and contains a parameter indicating a successful deletion
+                                                            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_course_day'])) {
+                                                                // Display the pop-up message after successful deletion
+                                                                $successMessage = "Course deleted successfully";
+                                                            }
+                                                        </script>
                                                     </span>
                                                 </td>
                                             </tr>
@@ -195,3 +224,24 @@
                     }
                 }
                 ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var successMessage = "<?php echo isset($successMessage) ? $successMessage : '' ?>";
+        var errorMessage = "<?php echo isset($errorMessage) ? $errorMessage : '' ?>";
+
+        if (successMessage.trim() !== "") {
+            var popup = $('<div class="success-popup">' + successMessage + '</div>');
+            $('body').prepend(popup);
+            setTimeout(function () {
+                popup.fadeOut();
+                // Redirect to the page after displaying the success message
+            }, 3000);
+        }
+
+        if (errorMessage.trim() !== "") {
+            alert(errorMessage); // Display error message using alert for now, you can customize this as needed
+        }
+    });
+</script>
