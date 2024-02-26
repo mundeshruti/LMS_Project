@@ -2,12 +2,17 @@
 Learning-management-system 
 
 FOR SUPERADMIN LOGIN:
-    http://localhost/LMS_Project/index.php
+    Superadmin:
+    username: superadmin@gmail.com
+    password: 12345678
 
 FOR ADMIN LOGIN:
-  http://localhost/LMS_Project/admin/index.html
+ 
+  Admin: admin@gmail.com
+  password: Admin@1234
 
 
 FOR STUDENT LOGIN:
-   http://localhost/LMS_Project/student/index.html
+   Student: student@gmail.com
+   Passwors: Student@1234
 
