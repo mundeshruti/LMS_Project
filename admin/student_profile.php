@@ -53,6 +53,7 @@
             // Student found, retrieve data
             $row = $result->fetch_assoc();
             $name = $row['name'];
+            $email = $row['email'];
             $profession = $row['profession'];
             $imagePath = $row['image_path'];
 
@@ -61,7 +62,9 @@
             echo '<h2>Student Profile</h2>';
             echo '<img src="' . $imagePath . '" alt="' . $name . '">';
             echo '<p><strong>Name:</strong> ' . $name . '</p>';
-            echo '<p><strong>Profession:</strong> ' . $profession . '</p>';
+            echo '<p><strong>Email:</strong> ' . $email . '</p>';
+           
+            // echo '<p><strong>Profession:</strong> ' . $profession . '</p>';
             echo '</div>';
         } else {
             echo "Student not found.";

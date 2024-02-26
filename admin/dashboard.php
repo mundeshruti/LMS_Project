@@ -28,19 +28,19 @@
          <div class="box-container">
             <div class="box">
                <h3></h3>
-               <p>total student</p>
+               <p>student list</p>
                <a href="students.php" class="btn">add new student</a>
             </div>
             <div class="box">
                <h3></h3>
-               <p>assigned courses</p>
-               <a href="stdcourses.php" class="btn">Assign</a>
+               <p>Assign course</p>
+               <a href="stdcourses.php" class="btn">Assign course</a>
             </div>
 
 
             <div class="box">
                <h3></h3>
-               <p>courses</p>
+               <p> view courses</p>
                <a href="courses.php" class="btn">view courses</a>
             </div>
 

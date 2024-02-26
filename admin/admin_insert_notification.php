@@ -13,7 +13,11 @@ $message = $_POST['message'];
 error_log("Received data: admin_id=$adminId, course_id=$courseId, message=$message");
 
 // Insert data into the notification_records table (replace 'your_connection_details' with your actual database connection details)
-$conn = new mysqli("localhost", "root", "", "lms_db");
+$servername = "localhost";
+$username = "u105084344_LMS";
+$password = "Lms@4321";
+$dbname = "u105084344_LMS";
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

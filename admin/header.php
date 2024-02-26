@@ -15,15 +15,12 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
 
     <section class="flex">
 
-        <a href="dashboard.php" class="logo">RSL Solution</a>
+        <a href="dashboard.php" class="logo">RSL Solution Pvt.Ltd</a>
 
 
         <div class="icons">
 
             <div id="menu-btn" class="fas fa-bars"></div>
-            <div id="notifications-btn" class="fa-solid fa-bell">
-                <span class="icon-button__badge">2</span>
-            </div>
             <div id="search-btn" class="fas fa-search"></div>
             <div id="user-btn" class="fas fa-user"></div>
             <div id="toggle-btn" class="fas fa-sun"></div>
@@ -41,12 +38,19 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
         </div>
 
         <div class="profile">
-            <img src="images/pic-1.jpg" class="image" alt="">
+            <!-- <img src="images/pic-1.jpg" class="image" alt=""> -->
+            <?php
+             $imagePath = "../superadmin/uploads/" . basename($user_image);
+             if (file_exists($imagePath)) {
+                 echo "<img src=\"$imagePath\" class=\"image\" alt=\"$user_name's Profile Image\">";
+             } else {
+                 echo "Image not found.";
+             }?>
             <?php $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';?>
              <h3><?php echo $user_name; ?></h3>
             <a href="profile.php" class="btn">view profile</a>
 
-            <a href="../admin/index.html" class="btn">logout</a>
+            <a href="../admin/index.php" class="btn">logout</a>
         </div>
 
     </section>

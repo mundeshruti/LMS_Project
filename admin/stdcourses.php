@@ -15,7 +15,12 @@
     <link rel="stylesheet" href="css/course.css">
 
 </head>
-
+<style>
+    #assign-btn{
+        margin-left: 40%;
+    }
+    
+</style>
 <body>
 
     <?php include 'header.php'; ?>
@@ -86,7 +91,7 @@
                 ?>
             </select>
 
-            <button type="submit" class="inline-btn">Assign</button>
+            <button type="submit" class="inline-btn" id="assign-btn">Assign</button>
         </form>
 
     </div>

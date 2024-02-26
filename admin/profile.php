@@ -30,7 +30,13 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
    <?php if (!empty($user_name) && !empty($user_email)) : ?>
        <div class="details">
           <div class="tutor">
-          <img src="<?php echo $_SESSION['user_image']; ?>" class="image" alt="User Image">
+          <?php
+             $imagePath = "../superadmin/uploads/" . basename($user_image);
+             if (file_exists($imagePath)) {
+                 echo "<img src=\"$imagePath\" class=\"image\" alt=\"$user_name's Profile Image\">";
+             } else {
+                 echo "Image not found.";
+             }?>
              <h3><?php echo $user_name; ?></h3>
              <span><?php echo $user_email; ?></span>
           </div>

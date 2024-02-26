@@ -1,13 +1,7 @@
 <?php
 session_start(); 
 
-// Example of fetching admin data from the database
-$conn = new mysqli("localhost", "root", "", "lms_db");
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'connect_db.php';
 
 // Fetch admin data from the database
 $course_query = "SELECT course_id id, course_name coursename FROM create_course";
@@ -215,19 +209,41 @@ if (!$course_result || !$notification_result) {
         <select id="recipient">
         <option value="0">All Course</option>
             <?php
-            
-            // Loop through the results and generate options dynamically
-            while ($row = $course_result->fetch_assoc()) {
-                echo '<option value="' . $row['id'] . '">' . $row['coursename'] . '</option>';
-                
-            }
+   
+   // Include database connection
+   include 'connect_db.php';
+
+
+   // Get the admin's user_id from the session
+   session_start();
+   $admin_id = $_SESSION['user_id'];
+
+   // SQL query to select all students assigned to the admin
+   $sql = "SELECT * FROM assign_admin WHERE admin_id = '$admin_id'";
+
+   // Execute the query
+   $result = $conn->query($sql);
+
+   // If there are rows in the result, generate dropdown options
+   if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+         // Fetch the course name assigned to the admin
+         $course_name = $row['course_name'];
+         // Display the course name as an option in the dropdown
+         echo "<option value='" . $course_name . "'>" . $course_name . "</option>";
+      }
+   } else {
+      echo "<option value=''>No courses found</option>";
+   }
+   ?>
+
             ?>
         </select> 
         <br>
         <label for="notification-message">Notification Message:</label>
         <textarea id="notification-message" rows="5"></textarea>
         <br>
-        <button onclick="sendNotificationByAdmin()" class="inline-btn">Send Notification</button>
+        <button onclick="sendNotificationByAdmin()" class="inline-btn" style="display: block; margin: 0 auto;">Send Notification</button>
     </div>
 
     <!-- Unread Notification Count -->

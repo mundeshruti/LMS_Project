@@ -33,24 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $row = $result->fetch_assoc();
                 $admin_id = $row['id'];
 
-                // Fetch coursename from stdcourse table for the particular student
-                // $coursename_query = "SELECT course_name FROM create_course WHERE admin_id = '$admin_id'";
-                // $coursename_result = $conn->query($coursename_query);
-
-                // if ($coursename_result && $coursename_result->num_rows == 1) {
-                //     // Coursename found, set it in the session
-                //       // Coursename found, set it in the session
-                // $coursename_row = $coursename_result->fetch_assoc();
-                // $coursename = $coursename_row['course_name'];
-                // $_SESSION['course_name'] = $coursename;
-                // echo "Coursename retrieved: " . $coursename; // Debug statement
-                // } else {
-                //     // Coursename not found for the student
-                //     $errors[] = "No courses found for the student.";
-                //     echo "No courses found for the student."; // Debug statement
-                // }
-       
-
+               
                 // Verify the entered password
                 $trimmedPassword = trim($password);
                 if (password_verify($trimmedPassword, $row['password'])) {
@@ -80,5 +63,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo "<script>alert('" . implode("\\n", $errors) . "');</script>";
 }
 // Redirect in case of errors
-echo "<script>window.location = 'index.html';</script>";
+echo "<script>window.location = 'index.php';</script>";
 ?>

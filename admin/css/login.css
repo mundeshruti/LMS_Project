@@ -146,6 +146,7 @@ section {
    min-height: calc(100vh - 20rem);
    align-items: center;
    justify-content: center;
+   
 
 }
 
@@ -182,3 +183,21 @@ section {
    width: 100%;
    margin: 1rem 0;
 }
+/* styles.css */
+.password-field {
+   position: relative;
+ }
+ 
+ #passwordInput {
+   padding-right: 30px; /* Make space for the icon */
+ }
+ 
+ .toggle-password {
+   position: absolute;
+   top: 50%;
+   right: 10px;
+   font-size: small;
+   transform: translateY(-50%);
+   cursor: pointer;
+ }
+ 

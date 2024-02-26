@@ -48,7 +48,8 @@ if ($result->num_rows > 0) {
         echo '<img src="' . $row['image_path'] . '" alt="" style="width: 80px; height: 80px;">' ;
         echo '<div class="stu-box">';
         echo '<h3>' . $row['name'] . '</h3>';
-        echo '<span>' . $row['profession'] . '</span>';
+       
+        // echo '<span>' . $row['profession'] . '</span>';
         echo '</div>';
         echo '</div>';
         

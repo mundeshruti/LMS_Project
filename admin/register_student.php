@@ -65,15 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<script>window.location = 'register.php';</script>";
     }
 }
-
+// 
 function validateInput($input) {
-    // Basic input validation (you can customize this based on your requirements)
-    $input = trim($input);
-    $input = stripslashes($input);
-    $input = htmlspecialchars($input);
-    return $input;
+    // Remove any numbers from the input using regular expression
+    $validatedInput = preg_replace('/[0-9]+/', '', $input);
+    // Trim any leading or trailing whitespace
+    $validatedInput = trim($validatedInput);
+    // Return the validated input
+    return $validatedInput;
 }
-
 function validateEmail($email) {
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -83,14 +83,68 @@ function validateEmail($email) {
     }
     return $email;
 }
-
 function validatePassword($password) {
-    // Password should contain at least one uppercase letter and one special character
-    if (!preg_match("/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/", $password)) {
+    // Password should contain at least one uppercase letter, one special character,
+    // no numbers, and have a minimum length of 8 characters
+    if (!preg_match("/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?!.*\d)[A-Za-z\d!@#$%^&*()_+]{8,}$/", $password)) {
         global $errors; // Access the global errors array
-        $errors[] = "Password should contain at least one uppercase letter, one special character and length 8 character.";
+        $errors[] = "Password should contain at least one uppercase letter, one special character, no numbers, and have a length of at least 8 characters.";
         return false;
     }
     return true;
 }
 
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your meta tags, title, and CSS/JS links here -->
+</head>
+<body>
+
+    <!-- Your existing HTML content -->
+
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+        <!-- Name -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<?php echo isset($_POST['name']) ? $_POST['name'] : ''; ?>">
+        <span class="error"><?php echo isset($errors['name']) ? $errors['name'] : ''; ?></span>
+        <br>
+        
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+        <span class="error"><?php echo isset($errors['email']) ? $errors['email'] : ''; ?></span>
+        <br>
+        
+        <!-- Password -->
+        <label for="pass">Password:</label>
+        <input type="password" id="pass" name="pass">
+        <span class="error"><?php echo isset($errors['pass']) ? $errors['pass'] : ''; ?></span>
+        <br>
+        
+        <!-- Confirm Password -->
+        <label for="cpass">Confirm Password:</label>
+        <input type="password" id="cpass" name="cpass">
+        <span class="error"><?php echo isset($errors['cpass']) ? $errors['cpass'] : ''; ?></span>
+        <br>
+        
+        <!-- Course -->
+        <label for="course">Course:</label>
+        <input type="text" id="course" name="course" value="<?php echo isset($_POST['course']) ? $_POST['course'] : ''; ?>">
+        <span class="error"><?php echo isset($errors['course']) ? $errors['course'] : ''; ?></span>
+        <br>
+        
+        <!-- Image Upload -->
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image">
+        <span class="error"><?php echo isset($errors['image']) ? $errors['image'] : ''; ?></span>
+        <br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Your existing HTML content -->
+
+</body>
+</html>

@@ -86,7 +86,7 @@ $result = $conn->query($sql);
                             <!-- Open the view file on click -->
                             <a href="view_create_course.php?name=<?php echo $row['course_name']; ?>" class="inline-btn">View</a>
                             <!-- If you want to assign the course, you should provide a link to the assign page -->
-                            <a href="stdcourses.php" class="inline-btn">Assign</a>
+                            <!-- <a href="stdcourses.php" class="inline-btn">Assign</a> -->
                         </div>
                     </div>
                     <?php
