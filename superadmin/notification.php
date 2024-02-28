@@ -220,7 +220,7 @@ WHERE is_createdby_superadmin = 1;";
             <?php
             // Loop through the results and generate options dynamically
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="' . $row['id'] . '">' . $row['name'] . " - " .  $row['id'] . '</option>';      
+                echo '<option value="' . $row['id'] . '">' . $row['name'] . "  " . '</option>';      
             }
             ?>
         </select>
@@ -292,6 +292,15 @@ WHERE is_createdby_superadmin = 1;";
     
     <!-- Custom JS file link -->
     <script src="js/script.js"></script>
+       <!-- Script for Notification Popup -->
+       <script>
+    // function sendNotificationBySuperadmin() {
+    //     // Add your notification sending logic here
+        
+    //     // After successful notification sending, show a pop-up message
+    //     alert('Notification sent successfully');
+    // }
+    </script>
     <?php include 'sidebar.php'; ?>
 
 </body>

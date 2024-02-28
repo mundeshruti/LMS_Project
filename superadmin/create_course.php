@@ -82,7 +82,7 @@
             $courseDuration = htmlspecialchars(trim($courseDuration));
             include 'connect_db.php';
             // Insert data into the Courses table
-            $sql = "INSERT INTO Create_course (course_name, course_description, course_duration) VALUES ('$courseName', '$courseDescription', '$courseDuration')";
+            $sql = "INSERT INTO create_course (course_name, course_description, course_duration) VALUES ('$courseName', '$courseDescription', '$courseDuration')";
 
             if ($conn->query($sql) === TRUE) {
                 // Course added successfully, display a JavaScript alert

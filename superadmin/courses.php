@@ -52,5 +52,27 @@
 
 <?php include 'sidebar.php'; ?>
    
+<!-- <script>
+   // Function to filter courses based on search input
+   function filterCourses() {
+      var input, filter, courses, courseTitles, i, txtValue;
+      input = document.getElementById('searchInput');
+      filter = input.value.toUpperCase();
+      courses = document.getElementById("courseContainer");
+      courseTitles = courses.getElementsByClassName('title');
+
+      for (i = 0; i < courseTitles.length; i++) {
+         txtValue = courseTitles[i].textContent || courseTitles[i].innerText;
+         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            courseTitles[i].parentNode.style.display = "";
+         } else {
+            courseTitles[i].parentNode.style.display = "none";
+         }
+      }
+   }
+
+   // Event listener for search input
+   document.getElementById('searchInput').addEventListener('input', filterCourses);
+</script> -->
 </body>
 </html>

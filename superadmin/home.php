@@ -18,7 +18,7 @@
 <?php include 'header.php'; ?>
 <section class="home-grid">
 
-   <h1 class="heading">quick options</h1>
+   <h1 class="heading">Quick options</h1>
 
    <div class="box-container">
 
