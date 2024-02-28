@@ -4,11 +4,12 @@ include 'connect_db.php';
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
-    $courseId = $_POST["course_id"]; // Assuming you have a hidden input field in your form with name 'course_id'
+    $courseId = $_POST["course_id"];
+    $studentId = $_POST["student_id"];
     $courseName = ""; // Variable to store the course name
 
     // Fetch the course name associated with the submitted course ID
-    $sql = "SELECT course_name FROM course_details WHERE id = '$courseId'";
+    $sql = "SELECT course_name FROM admin_student_course WHERE id = '$courseId' AND student_id = '$studentId'";
     $result = $conn->query($sql);
 
     if ($result && $result->num_rows > 0) {
@@ -20,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Handle file upload
-    $targetDirectory = "uploads/"; // Directory where uploaded files will be saved
+    $targetDirectory = "uploads/";
     $targetFile = $targetDirectory . basename($_FILES["uploadfile"]["name"]);
     $uploadOk = 1;
     $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -44,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // If everything is ok, try to upload file
         if (move_uploaded_file($_FILES["uploadfile"]["tmp_name"], $targetFile)) {
             // File uploaded successfully, now update the database
-            $updateSql = "UPDATE course_details SET uploaded_file = '$targetFile', completed = 1 WHERE id = $courseId";
+            $updateSql = "UPDATE admin_student_course SET uploaded_file = '$targetFile', completed = 1 WHERE id = $courseId AND student_id = '$studentId'";
 
             if ($conn->query($updateSql) === TRUE) {
                 // Alert user and redirect with course name parameter

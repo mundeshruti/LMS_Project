@@ -29,7 +29,7 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
    <?php include 'header.php'; ?>
 
    <section class="practical">
-      <h1 class="heading">quick options</h1>
+      <h1 class="heading">Quick options</h1>
       <div id="swap_dashboard" style="display: block;">
          <section class="dashboard">
 

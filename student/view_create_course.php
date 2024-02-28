@@ -18,6 +18,8 @@ if (isset($_GET['name'])) {
     $courseSql = "SELECT * FROM create_course WHERE course_name = '$courseName'";
     $courseResult = $conn->query($courseSql);
 
+
+
     if ($courseResult->num_rows > 0) {
         $courseDetails = $courseResult->fetch_assoc();
         ?>
@@ -131,7 +133,7 @@ if (isset($_GET['name'])) {
                             <?php
                             // Query to fetch associated course details based on the course_name
                             $courseName = $courseDetails['course_name'];
-                            $detailsSql = "SELECT * FROM course_details WHERE course_name = '$courseName' ORDER BY completed ASC, course_day ASC";
+                            $detailsSql = "SELECT * FROM admin_student_course WHERE course_name = '$courseName' AND student_id = '$st_id' ORDER BY completed ASC, course_day ASC";
                             $detailsResult = $conn->query($detailsSql);
 
                             // Variable to track if unfinished course detail has been displayed
@@ -141,7 +143,7 @@ if (isset($_GET['name'])) {
                                 echo "Error: " . $conn->error;
                             } elseif ($detailsResult->num_rows > 0) {
                                 while ($details = $detailsResult->fetch_assoc()) {
-                                    if ($details['completed'] == "") {
+                                    if ($details['completed'] == "0") {
                                         // Display only the first unfinished course detail
                                         if (!$unfinishedDisplayed) {
                                             ?>
@@ -159,13 +161,14 @@ if (isset($_GET['name'])) {
                                                         <?php echo $details['practical_link']; ?>
                                                     </a></td>
 
-
                                                 <td>
                                                     <form action="submit_course.php" method="post" enctype="multipart/form-data">
                                                         <input type="hidden" name="course_id" value="<?php echo $details["id"]; ?>">
+                                                        <input type="hidden" name="student_id" value="<?php echo $details["student_id"]; ?>">
                                                         <input type="file" id="uploadfile" name="uploadfile" required>
                                                         <button class="button">Submit</button>
                                                     </form>
+
                                                 </td>
                                             </tr>
                                             <?php
@@ -181,19 +184,26 @@ if (isset($_GET['name'])) {
                                             <td>
                                                 <?php echo $details['course_description']; ?>
                                             </td>
-                                            <td><a href="<?php echo $details['course_link']; ?>" target="_blank">
+                                            <td>
+                                                <a href="<?php echo $details['course_link']; ?>" target="_blank">
                                                     <?php echo $details['course_link']; ?>
-                                                </a></td>
-                                            <td><a href="<?php echo $details['practical_link']; ?>" target="_blank">
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="<?php echo $details['practical_link']; ?>" target="_blank">
                                                     <?php echo $details['practical_link']; ?>
-                                                </a></td>
-
+                                                </a>
+                                            </td>
                                             <td>
                                                 Completed
-                                                <form action="edit_course.php" method="post">
-                                                    <input type="hidden" name="course_id" value="<?php echo $details["id"]; ?>">
+                                                <form action="edit_course.php" method="post" style="display: inline;">
+                                                    <input type="hidden" name="course_id" value="<?php echo $details["course_id"]; ?>">
+                                                    <input type="hidden" name="student_id" value="<?php echo $details["student_id"]; ?>">
                                                     <button class="button">Edit</button>
                                                 </form>
+                                                <!-- Display previously uploaded file here -->
+                                                <button class="button"
+                                                    onclick="openFileInNewTab('<?php echo $details['uploaded_file']; ?>')">View</button>
                                             </td>
                                         </tr>
                                         <?php
@@ -210,6 +220,15 @@ if (isset($_GET['name'])) {
             <script src="js/script.js"></script>
             <?php include 'sidebar.php'; ?>
         </body>
+
+
+        <script>
+            function openFileInNewTab(filePath) {
+                window.open(filePath, '_blank');
+            }
+        </script>
+
+
 
         </html>
         <?php

@@ -1,13 +1,15 @@
 <?php
+
 include 'connect_db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if course ID is provided
-    if (isset($_POST['course_id'])) {
+    // Check if course ID and student ID are provided
+    if (isset($_POST['course_id']) && isset($_POST['student_id'])) {
         $courseId = $_POST['course_id'];
+        $studentId = $_POST['student_id'];
 
-        // Fetch course name based on course ID
-        $sql_course_name = "SELECT course_name FROM course_details WHERE id = '$courseId'";
+        // Fetch course name based on course ID and student ID
+        $sql_course_name = "SELECT course_name FROM admin_student_course WHERE course_id = '$courseId' AND student_id = '$studentId'";
         $result_course_name = $conn->query($sql_course_name);
 
         if ($result_course_name->num_rows > 0) {
@@ -28,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Move the uploaded file to the target directory
                 if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], $filePath)) {
                     // Update the database with the new file path
-                    $sql = "UPDATE course_details SET uploaded_file = '$filePath', completed = 1 WHERE id = '$courseId'";
+                    $sql = "UPDATE admin_student_course SET uploaded_file = '$filePath', completed = 1 WHERE course_id = '$courseId' AND student_id = '$studentId'";
                     if ($conn->query($sql) === TRUE) {
                         echo "<script>alert('File updated successfully.'); window.location.href = 'view_create_course.php?name=$courseName';</script>";
                     } else {
@@ -44,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Course name not found.";
         }
     } else {
-        echo "Course ID is missing.";
+        echo "Course ID or Student ID is missing.";
     }
 } else {
     echo "Invalid request method.";

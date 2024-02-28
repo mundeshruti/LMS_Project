@@ -1,20 +1,18 @@
 <?php
-include 'connect_db.php';
 session_start();
+include 'connect_db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if course ID is provided
-    if (isset($_POST['course_id'])) {
+    // Check if course ID and student ID are provided
+    if (isset($_POST['course_id']) && isset($_POST['student_id'])) {
         $courseId = $_POST['course_id'];
+        $studentId = $_POST['student_id'];
 
-        // Prepare and bind the SQL query with a placeholder for the course ID
-        $sql = "SELECT * FROM course_details WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $courseId);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        // Fetch the existing file details from the database for the given course ID and student ID
+        $sql = "SELECT * FROM admin_student_course WHERE course_id = '$courseId' AND student_id = '$studentId'";
+        $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             // Display the form with the existing file details
             ?>
@@ -73,11 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </head>
 
             <body>
-            <?php include 'header.php'; ?>
+                <?php include 'header.php'; ?>
                 <div class="container">
                     <h2>Edit File</h2>
                     <form action="update_course.php" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="course_id" value="<?php echo $row['id']; ?>">
+                        <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
+                        <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
                         <div class="form-group">
                             <!-- <label for="uploadfile">Upload File:</label> -->
                             <input type="file" id="uploadfile" name="uploadfile" required>
@@ -85,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <button type="submit">Update</button>
                     </form>
                 </div>
-              
+                <?php include 'sidebar.php'; ?>
             </body>
             </html>
             <?php
@@ -93,10 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "No course found with the provided ID.";
         }
     } else {
-        echo "Course ID is missing.";
+        echo "Course ID or Student ID is missing.";
     }
 } else {
     echo "Invalid request method.";
 }
 ?>
- <?php include 'sidebar.php'; ?>

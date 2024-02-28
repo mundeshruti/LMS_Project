@@ -43,10 +43,10 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
             // Check if the form is submitted for searching
             if (isset($_POST['search_tutor'])) {
                 $search_query = $_POST['search_box'];
-                $search_sql = "SELECT * FROM admin_student_course WHERE student_id = '$st_id' AND course_name LIKE '%$search_query%'";
+                $search_sql = "SELECT DISTINCT course_name FROM admin_student_course WHERE student_id = '$st_id' AND course_name LIKE '%$search_query%'";
                 $result = $conn->query($search_sql);
             } else {
-                $sql = "SELECT * FROM admin_student_course WHERE student_id = '$st_id'";
+                $sql = "SELECT DISTINCT course_name FROM admin_student_course WHERE student_id = '$st_id'";
                 $result = $conn->query($sql);
             }
 
