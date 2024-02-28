@@ -1,6 +1,5 @@
 <?php
 session_start(); 
-
 include 'connect_db.php';
 
 // Fetch admin data from the database

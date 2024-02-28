@@ -23,7 +23,7 @@
    <div id="swap_dashboard" style="display: block;">
       <section class="dashboard">
 
-         <h1 class="heading">dashboard</h1>
+         <h1 class="heading">Quick options</h1>
 
          <div class="box-container">
             <div class="box">

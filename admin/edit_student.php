@@ -66,42 +66,127 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Display a form with pre-filled data for editing
             ?>
             <html lang="en">
+
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <title>Edit Student</title>
                 <style>
-                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
-                    form { max-width: 400px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
-                    h2 { text-align: center; margin-bottom: 20px; }
-                    label { display: block; margin-bottom: 10px; }
-                    input, select, textarea { width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box; }
-                    input[type="submit"] { background-color: #4caf50; color: #fff; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
-                    input[type="submit"]:hover { background-color: #45a049; }
-                    .password-field { position: relative; }
-                    #passwordInput { padding-right: 30px; /* Make space for the icon */ }
-                    .toggle-password { position: absolute; top: 50%; font-size: small; right: 10px; transform: translateY(-50%); cursor: pointer; }
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #f4f4f4;
+                    }
+
+                    form {
+                        max-width: 400px;
+                        margin: 20px auto;
+                        padding: 20px;
+                        background-color: #fff;
+                        border-radius: 8px;
+                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    }
+
+                    h2 {
+                        text-align: center;
+                        margin-bottom: 20px;
+                    }
+
+                    label {
+                        display: block;
+                        margin-bottom: 10px;
+                    }
+
+                    input,
+                    select,
+                    textarea {
+                        width: 100%;
+                        padding: 8px;
+                        margin-bottom: 15px;
+                        box-sizing: border-box;
+                    }
+
+                    input[type="submit"] {
+                        background-color: #4caf50;
+                        color: #fff;
+                        border: none;
+                        padding: 10px 15px;
+                        cursor: pointer;
+                        border-radius: 5px;
+                    }
+
+                    input[type="submit"]:hover {
+                        background-color: #45a049;
+                    }
+
+                    .password-field {
+                        position: relative;
+                    }
+
+                    #passwordInput {
+                        padding-right: 30px;
+                        /* Make space for the icon */
+                    }
+
+                    .toggle-password {
+                        position: absolute;
+                        top: 50%;
+                        font-size: small;
+                        right: 10px;
+                        transform: translateY(-50%);
+                        cursor: pointer;
+                    }
+                    img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
                 </style>
                 <script src="https://kit.fontawesome.com/999c289fc3.js" crossorigin="anonymous"></script>
             </head>
+
             <body>
                 <h2>Edit Student</h2>
                 <form action="edit_student.php" method="post" enctype="multipart/form-data">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="<?= $name ?>" required>
+                    <input type="text" id="name" name="name" value="<?= $name ?>"
+                        oninput="this.value = this.value.replace(/[0-9]/g, '');" required>
 
                     <label for="profession">Profession:</label>
                     <select name="profession" id="profession" class="box" required>
                         <option value="" disabled>-- select your skill</option>
                         <option value="developer" <?= ($selectedProfession === 'developer') ? 'selected' : '' ?>>Web Developer</option>
-                        <option value="front end developer" <?= ($selectedProfession === 'front end developer') ? 'selected' : '' ?>>Front End Developer</option>
-                        <option value="backend developer" <?= ($selectedProfession === 'backend developer') ? 'selected' : '' ?>>Back End Developer</option>
-                        <option value="full stack developer" <?= ($selectedProfession === 'full stack developer') ? 'selected' : '' ?>>Full Stack Developer</option>
+                        <option value="front end developer" <?= ($selectedProfession === 'front end developer') ? 'selected' : '' ?>>
+                            Front End Developer</option>
+                        <option value="backend developer" <?= ($selectedProfession === 'backend developer') ? 'selected' : '' ?>>Back
+                            End Developer</option>
+                        <option value="full stack developer" <?= ($selectedProfession === 'full stack developer') ? 'selected' : '' ?>>
+                            Full Stack Developer</option>
                         <option value="ML" <?= ($selectedProfession === 'ML') ? 'selected' : '' ?>>Machine Learning</option>
                         <option value="Analyst" <?= ($selectedProfession === 'Analyst') ? 'selected' : '' ?>>Analyst</option>
                     </select>
 
                     <label for="image">Image:</label>
+                    <?php
+
+                    include 'connect_db.php';
+
+                    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                        $studentId = $_GET['id'];
+
+                        // Fetch student data based on the ID
+                        $selectSql = "SELECT * FROM register_student WHERE id = $studentId";
+                        $result = $conn->query($selectSql);
+
+                        if ($result->num_rows > 0) {
+                            // Student found, retrieve data
+                            $row = $result->fetch_assoc();
+
+                            $imagePath = $row['image_path'];
+
+                            // Display student details with a 50px image size
+                            echo '<img src="' . $imagePath . '" alt="' . $name . '">';
+                            ?>
                     <input type="file" id="image" name="image">
 
                     <div class="password-field">
@@ -129,16 +214,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 </script>
             </body>
+
             </html>
             <?php
-        } else {
-            echo "Student not found.";
+                        } else {
+                            echo "Student not found.";
+                        }
+                    } else {
+                        echo "Invalid student ID.";
+                    }
         }
-    } else {
-        echo "Invalid student ID.";
+
+        // Close the database connection
+        $conn->close();
     }
 }
-
-// Close the database connection
-$conn->close();
 ?>

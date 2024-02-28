@@ -6,9 +6,6 @@ session_start();
 $adminId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '-1';
 $courseId = $_POST['course_id'];
 $message = $_POST['message'];
-
-
-
 // Log received data for debugging
 error_log("Received data: admin_id=$adminId, course_id=$courseId, message=$message");
 

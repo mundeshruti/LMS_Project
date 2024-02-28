@@ -40,6 +40,18 @@
       font-size: 14px;
       /* Center the text horizontally */
    }
+   .password-info-container {
+      position: absolute;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      max-width: 200px; /* Adjust as needed */
+      z-index: 999; /* Ensure it appears above other elements */
+   }
+
+
 </style>
 <body>
 <?php
@@ -147,7 +159,7 @@ function validatePassword($password)
    // and have a length of at least 8 characters
    if (!preg_match('/^(?=.*[A-Z])(?=.*[!@#$%^&*()-_+=])[a-zA-Z!@#$%^&*()-_+=]{8,}$/', $password)) {
       global $errors; // Access the global errors array
-      $errors[] = "Password should contain at least one uppercase letter, one special character, no numbers, and have a length of at least 8 characters.";
+      $errors[] = "Password should contain at least one uppercase letter, one special character, and have a length of at least 8 characters.";
       return false;
    }
    return $password;
@@ -211,11 +223,22 @@ function validatePassword($password)
                   <span class="toggle-password" onclick="togglePassword('password')">
                      <i class="fas fa-eye" id="eye-icon"></i>
                   </span>
+                  <span class="password-info" onclick="togglePasswordInfo()">
+        <i class="fas fa-question-circle" id="question-icon"></i>
+    </span>
                </p>
                <div class="password-container">
                   <input type="password" name="pass" id="password" placeholder="Enter password" maxlength="20" required
                      class="box">
                </div>
+               <div class="password-info-container" id="password-info">
+               <p>Password must contain:</p>
+               <ul>
+                  <li>At least 8 characters</li>
+                  <li>At least one uppercase letter</li>
+                  <li>At least one special character (!@#$%^&*()-_+=)</li>
+               </ul>
+            </div>
                <!-- Confirm Password input field with toggle icon -->
                <p>Confirm Password <span>*</span>
                   <span class="toggle-password" onclick="togglePassword('confirm-password')">
@@ -252,6 +275,15 @@ function validatePassword($password)
             eyeIcon.classList.add("fa-eye");
          }
       }
+      function togglePasswordInfo() {
+        const passwordInfoContainer = document.querySelector('.password-info-container');
+        if (passwordInfoContainer.style.display === "none") {
+            passwordInfoContainer.style.display = "block";
+        } else {
+            passwordInfoContainer.style.display = "none";
+        }
+    }
+
 
       // Validate confirm password
       document.querySelector('input[name="cpass"]').addEventListener('input', function () {

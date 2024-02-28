@@ -1,25 +1,26 @@
 <style>
-  .row {
+ .row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Adjust as needed */
-  }
+    flex-wrap: nowrap;
+   /* Align items horizontally at the center */
+}
 
+.box {
+    /* Adjust box styles as needed */
+    width: 200px; /* Set a fixed width for each student box */
+    margin: 10px; /* Add some margin around each box */
+    padding: 15px; /* Add padding inside each box */
+    border: 1px solid #ccc; /* Add a border for visual separation */
+    text-align: center; /* Center text horizontally */
+}
 
-  .tutor img {
+.tutor img {
     width: 80px;
     height: 80px;
     border-radius: 50%; /* Make the image circular */
     object-fit: cover; /* Maintain aspect ratio while covering the container */
-  }
+}
 
-  .box {
-    text-align: center; /* Center the content within the box */
-  }
-
-  .stu-box {
-    margin-top: 10px; /* Adjust margin as needed */
-  }
 </style>
 <?php
 include 'connect_db.php'; // Include your database connection file
