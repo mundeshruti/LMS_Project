@@ -2,6 +2,16 @@
 session_start();
 include 'connect_db.php';
 
+// Check if admin is logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to login page if admin is not logged in
+    header("Location: login.php");
+    exit();
+}
+
+// Get admin's ID from the session
+$admin_id = $_SESSION['user_id'];
+
 $name = $_POST['name'];
 $course_name = $_POST['course_name'];
 
@@ -37,13 +47,13 @@ if ($result_check && $result_check->num_rows > 0) {
                 $course_link = $course_detail['course_link'];
                 $practical_link = $course_detail['practical_link'];
 
-                // Insert course details along with student information
-                $sql_insert = "INSERT INTO admin_student_course (course_id, course_description, course_day, course_link, practical_link, completed, uploaded_file, student_id, name, course_name) VALUES ('$course_id', '$course_description', '$course_day', '$course_link', '$practical_link', '0', '', '$student_id', '$name', '$course_name')";
+                // Insert course details along with student information and admin ID
+                $sql_insert = "INSERT INTO admin_student_course (admin_id, course_id, course_description, course_day, course_link, practical_link, completed, uploaded_file, student_id, name, course_name) VALUES ('$admin_id', '$course_id', '$course_description', '$course_day', '$course_link', '$practical_link', '0', '', '$student_id', '$name', '$course_name')";
 
                 if ($conn->query($sql_insert) === TRUE && !$message_echoed) {
-                    echo "<script>alert('The course assigned to student sucessfully .')</script>";
+                    echo "<script>alert('The course assigned to student successfully.')</script>";
                     $message_echoed = true; // Set the flag to true after echoing the message
-                } elseif (!$message_echoed) {
+                } else if (!$message_echoed) {
                     echo "Error: " . $sql_insert . "<br>" . $conn->error;
                 }
             }

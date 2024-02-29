@@ -5,6 +5,14 @@ include 'connect_db.php';
 $name = $_POST['name'];
 $course_name = $_POST['course_name'];
 
+$sql_course_id = "SELECT course_id FROM create_course WHERE course_name = '$course_name'";
+                
+$result_course_id = $conn->query($sql_course_id);
+$row = $result_course_id->fetch_assoc();
+$course_id = $row['course_id'];
+//echo "<script>alert('Course ID not found.$course_id')</script>";
+
+
 // Check if the admin already has the course assigned
 $sql_check = "SELECT * FROM assign_admin WHERE name = '$name' AND course_name = '$course_name'";
 $result_check = $conn->query($sql_check);
@@ -22,7 +30,7 @@ if ($result_check && $result_check->num_rows > 0) {
         $admin_id = $row['id'];
 
         // Insert the admin ID and course name into the assign_admin table
-        $sql = "INSERT INTO assign_admin(admin_id, name, course_name) VALUES ('$admin_id', '$name', '$course_name')";
+        $sql = "INSERT INTO assign_admin(admin_id, name, course_name, course_id) VALUES ('$admin_id', '$name', '$course_name','$course_id')";
         
         if ($conn->query($sql) === TRUE) {
             echo "<script>alert('course assigned to admin sucessfully.!')</script>";

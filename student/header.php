@@ -9,37 +9,26 @@ $st_admin_id = isset($_SESSION['st_admin_id']) ? $_SESSION['st_admin_id'] : '';
 $st_course_id = isset($_SESSION['st_course_id']) ? $_SESSION['st_course_id'] : '';
 $st_id = isset($_SESSION['st_id']) ? $_SESSION['st_id'] : '';
 
-$count_unread_notification = "SELECT COUNT(*) AS total FROM notification_records nr
-LEFT JOIN notification n on nr.notification_id = n.id 
-LEFT JOIN admins a ON n.admin_id = a.id
-LEFT JOIN create_course c ON n.course_id = c.course_id
-WHERE n.admin_id IN ('$st_admin_id', 0) AND n.course_id IN ('$st_course_id', 0) and nr.is_read = 0 and student_id = $st_id";
-
-// $count_unread_notification_result = $conn->query($count_unread_notification);
-// $total_records = $count_unread_notification_result->fetch_assoc()['total'];
-$count_unread_notification_result = $conn->query($count_unread_notification);
-if (!$count_unread_notification_result) {
-   // Query execution failed
-   echo "Error: " . $conn->error;
-} else {
-   // Query execution succeeded
-   $total_records = $count_unread_notification_result->fetch_assoc()['total'];
-}
-
-
-$fetch_unread_notification = "SELECT
-n.message,
+$fetch_unread_notification = "SELECT n.message,
 a.name AS admin_name,
-c.course_name AS course_name
-FROM notification_records nr
-LEFT JOIN notification n on nr.notification_id = n.id 
-LEFT JOIN admins a ON n.admin_id = a.id
-LEFT JOIN create_course c ON n.course_id = c.course_id
-WHERE n.admin_id IN ('$st_admin_id', 0) AND n.course_id IN ('$st_course_id', 0) and nr.is_read = 0 and student_id = $st_id";
+a.course_name AS course_name
+from notification_records as nr
+left join admin_student_course as a
+on nr.student_id = a.student_id
+left join notification as n
+on nr.notification_id = n.id
+where a.completed = 0 and a.admin_id in ('$st_admin_id', 0) and a.student_id = $st_id and nr.is_read = 0
+group by a.course_name, nr.id, a.student_id
+ORDER BY nr.id DESC";
 
 $fetch_unread_notification_result = $conn->query($fetch_unread_notification);
 
+// Check if the query was successful
+if ($fetch_unread_notification_result) {
+   $total_notifications = $fetch_unread_notification_result->num_rows;
+} 
 ?>
+
 <header class="header">
 
    <section class="flex">
@@ -52,9 +41,9 @@ $fetch_unread_notification_result = $conn->query($fetch_unread_notification);
          <div id="menu-btn" class="fas fa-bars"></div>
          <div id="notifications-btn" class="fa-solid fa-bell">
             <!-- Before using $total_records -->
-            <?php if (isset($total_records)): ?>
+            <?php if (isset($total_notifications)): ?>
                <span class="icon-button__badge">
-                  <?php echo $total_records; ?>
+                  <?php echo $total_notifications; ?>
                </span>
             <?php endif; ?>
 

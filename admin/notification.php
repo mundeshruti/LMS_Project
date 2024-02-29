@@ -3,7 +3,7 @@ session_start();
 include 'connect_db.php';
 
 // Fetch admin data from the database
-$course_query = "SELECT course_id id, course_name coursename FROM create_course";
+$course_query = "SELECT course_id, course_name coursename FROM create_course";
 $course_result = $conn->query($course_query);
 
 // Retrieve data from the AJAX request
@@ -228,8 +228,9 @@ if (!$course_result || !$notification_result) {
       while ($row = $result->fetch_assoc()) {
          // Fetch the course name assigned to the admin
          $course_name = $row['course_name'];
+         $course_id = $row['course_id'];
          // Display the course name as an option in the dropdown
-         echo "<option value='" . $course_name . "'>" . $course_name . "</option>";
+         echo "<option value='" . $course_id . "'>" . $course_name . "</option>";
       }
    } else {
       echo "<option value=''>No courses found</option>";

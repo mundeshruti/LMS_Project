@@ -60,6 +60,13 @@
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $admin_name = $_POST['name'];
                 $course_name = $_POST['course_name'];
+                $sql_course_id = "SELECT course_id FROM create_course WHERE course_name = '$course_name'";
+                
+                $result_course_id = $conn->query($sql_course_id);
+                $row = $result_course_id->fetch_assoc();
+                $course_id = $row['course_id'];
+                echo "<script>alert('Course ID not found.$course_id')</script>";
+
 
                 // Check if the admin already has the course assigned
                 $sql_check = "SELECT * FROM assign_admin WHERE name = '$admin_name' AND course_name = '$course_name'";
@@ -70,7 +77,7 @@
                     echo "<script>alert('The course is already assigned to this admin.')</script>";
                 } else {
                     // If the course is not assigned, proceed with the assignment
-                    $sql_insert = "INSERT INTO assign_admin (name, course_name) VALUES ('$admin_name', '$course_name')";
+                    $sql_insert = "INSERT INTO assign_admin (name, course_name, course_id) VALUES ('$admin_name', '$course_name', '1')";
                     if ($conn->query($sql_insert) === TRUE) {
                         echo "<script>alert('Course assigned successfully.')</script>";
                     } else {

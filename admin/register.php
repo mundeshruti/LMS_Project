@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    $course = isset($_POST['course']) ? $_POST['course'] : ''; // Check if course is set
 
    // Additional validation (you can customize this based on your requirements)
-   if (empty($name) || empty($course) || empty($email) || empty($password) || empty($confirmPassword)) {
+   if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
       $errors[] = "All fields are required.";
       $isValid = false; // Set validation status to false
    }
@@ -179,8 +179,8 @@ function validatePassword($password)
                <p>Name <span>*</span></p>
                <input type="text" name="name" placeholder="Enter your name" maxlength="50" required class="box"
                   oninput="this.value = this.value.replace(/[0-9]/g, '');">
-               <p> Course <span>*</span></p>
-               <select name="course" class="box" required>
+               <p> Course </p>
+               <select name="course" class="box">
                   <option value="Select Course Name" placeholder="Select Course Name">Select Course Name</option>
                   <!-- Default option -->
                   <?php

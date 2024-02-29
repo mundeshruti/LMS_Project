@@ -12,47 +12,38 @@ $st_admin_id = isset($_SESSION['st_admin_id']) ? $_SESSION['st_admin_id'] : '';
 $st_course_id = isset($_SESSION['st_course_id']) ? $_SESSION['st_course_id'] : '';
 $st_id = isset($_SESSION['st_id']) ? $_SESSION['st_id'] : '';
 
-
 // Pagination parameters
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
 $limit = 5; // Number of notifications per page
-$offset = ($page - 1) * $limit;
 
-// Fetch admin data from the database
-$notification_query = "SELECT
-    n.message,
-    a.name AS admin_name,
-    c.course_name AS course_name
-    FROM notification_records nr
-    LEFT JOIN notification n on nr.notification_id = n.id 
-    LEFT JOIN admins a ON n.admin_id = a.id
-    LEFT JOIN create_course c ON n.course_id = c.course_id
-    WHERE n.admin_id IN ('$st_admin_id', 0) AND n.course_id IN ('$st_course_id', 0) and nr.is_read = 1 and student_id = $st_id
-    ORDER BY nr.id DESC LIMIT $limit OFFSET $offset";
+$notification_query = "SELECT n.message,
+            a.name AS admin_name,
+            a.course_name AS course_name
+            from notification_records as nr
+            left join admin_student_course as a
+            on nr.student_id = a.student_id
+            left join notification as n
+            on nr.notification_id = n.id
+            where a.completed = 0 and a.admin_id in ('$st_admin_id', 0) and a.student_id = $st_id and nr.is_read = 1
+            group by a.course_name, nr.id, a.student_id
+            ORDER BY nr.id DESC";
 
 $notification_result = $conn->query($notification_query);
-    
+
 // Check if the query was successful
 if ($notification_result) {
-
-    $count_query = "SELECT COUNT(*) AS total FROM notification_records nr
-    LEFT JOIN notification n on nr.notification_id = n.id 
-    LEFT JOIN admins a ON n.admin_id = a.id
-    LEFT JOIN create_course c ON n.course_id = c.course_id
-    WHERE n.admin_id IN ('$st_admin_id', 0) AND n.course_id IN ('$st_course_id', 0) and nr.is_read = 1  and student_id = $st_id";
-        
-    $count_result = $conn->query($count_query);
-    
-    // Check if the count query was successful
-    if ($count_result) {
-        $total_records = $count_result->fetch_assoc()['total'];
-        $total_pages = ceil($total_records / $limit);
-    } else {
-        $total_pages = 0; // or set a default value
-    }
+    $total_notifications = $notification_result->num_rows;
+    $total_pages = ceil($total_notifications / $limit);
 } else {
     $total_pages = 0; // or set a default value
 }
+
+// Pagination parameters
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+$notification_query .= " LIMIT $limit OFFSET $offset";
+
+$notification_result = $conn->query($notification_query);
 ?>
 
 <!DOCTYPE html>
