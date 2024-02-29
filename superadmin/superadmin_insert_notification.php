@@ -9,22 +9,29 @@ $message = $_POST['message'];
 error_log("Received data: admin_id=$adminId, course_id=$courseId, message=$message");
 
 // Insert data into the notification_records table (replace 'your_connection_details' with your actual database connection details)
-$conn = new mysqli("localhost", "root", "", "lms_db");
+$conn = new mysqli("localhost", "root", "root123", "u105084344_lms");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+if ($courseId){
+    $sql_course_name = "SELECT course_name FROM create_course WHERE course_id = '$courseId'";
+    $result_course_name = $conn->query($sql_course_name);
+    $row = $result_course_name->fetch_assoc();
+    $course_name = $row['course_name'];
+}
+
 
 if($adminId == 0 && $courseId == 0){
-    $student_ids_query = "SELECT id FROM register_student;";
+    $student_ids_query = "SELECT student_id FROM admin_student_course group by student_id";
 }
 else if ($adminId == 0 && $courseId != 0){
-    $student_ids_query = "SELECT id FROM register_student WHERE active_course_id = $courseId;";
+    $student_ids_query = "SELECT student_id FROM admin_student_course WHERE course_name = '$course_name' group by student_id";
 }
 else if ($adminId != 0 && $courseId == 0){
-    $student_ids_query = "SELECT id FROM register_student WHERE created_by = $adminId;";
+    $student_ids_query = "SELECT student_id FROM admin_student_course WHERE admin_id = $adminId group by student_id";
 }else if($adminId != 0 && $courseId != 0){
-    $student_ids_query = "SELECT id FROM register_student WHERE created_by = $adminId and active_course_id = $courseId;";
+    $student_ids_query = "SELECT student_id FROM admin_student_course WHERE admin_id = $adminId and course_name = '$course_name'group by student_id";
 }
 $student_ids_result = $conn->query($student_ids_query);
 
@@ -40,7 +47,7 @@ if ($student_ids_result) {
 
         // Loop through student IDs and insert into notification_records
         while ($row = $student_ids_result->fetch_assoc()) {
-            $student_id = $row['id'];
+            $student_id = $row['student_id'];
             $notification_record_sql = "INSERT INTO notification_records (notification_id, student_id) 
                                         VALUES ('$notification_id', '$student_id')";
 
