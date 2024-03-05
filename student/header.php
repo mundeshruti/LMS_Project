@@ -1,5 +1,14 @@
 <?php
 include 'connect_db.php';
+
+
+// Check if admin is logged in
+if (!isset($_SESSION['user_id'])) {
+   // Redirect to login page if admin is not logged in
+   header("Location: index.php");
+   exit();
+}
+
 // session_start();
 //  $st_id = $_SESSION['st_id'];
 $st_name = isset($_SESSION['st_name']) ? $_SESSION['st_name'] : '';

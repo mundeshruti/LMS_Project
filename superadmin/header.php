@@ -1,4 +1,16 @@
 <!-- Header Section -->
+<?php
+
+session_start();
+
+// Check if admin is logged in
+if (!isset($_SESSION['superadmin_id'])) {
+   // Redirect to login page if admin is not logged in
+   header("Location: index.php");
+   exit();
+}
+?>
+
 <header class="header">
     <section class="flex">
         <a href="home.php" class="logo">RSL Solution Pvt.Ltd</a>
@@ -13,7 +25,7 @@
             <img src="images/pic-1.jpg" class="image" alt="">
             <p class="role">Super Admin</p>
             <a href="profile.php" class="btn">View Profile</a>
-            <a href="../index.php" class="btn">Logout</a>
+            <a href="index.php" class="btn">Logout</a>
         </div>
     </section>
 </header>
