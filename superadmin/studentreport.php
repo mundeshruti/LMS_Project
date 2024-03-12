@@ -67,6 +67,7 @@
       .table {
          width: 100%;
          border-collapse: collapse;
+         font-size: 16px;
       }
 
       .table th,
@@ -84,67 +85,90 @@
       .table tbody tr:nth-child(even) {
          background-color: #f2f2f2;
       }
+
       .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 20px; /* Add some spacing between rows */
-}
+         display: flex;
+         flex-wrap: wrap;
+         margin-bottom: 20px; /* Add some spacing between rows */
+      }
 
-.col-md-4 {
-    width: calc(33.333% - 20px); /* Adjust width to fit three columns in a row */
-    margin-right: 20px; /* Add some spacing between columns */
-}
+      .col-md-4 {
+         width: calc(33.333% - 20px); /* Adjust width to fit three columns in a row */
+         margin-right: 20px; /* Add some spacing between columns */
+      }
 
-.form-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+      .form-label {
+         display: block;
+         margin-bottom: 5px;
+         font-weight: bold;
+      }
 
-.form-control {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+      .form-control {
+         width: 100%;
+         padding: 8px;
+         border: 1px solid #ccc;
+         border-radius: 5px;
+      }
 
-.download-btn {
-    margin-top: 10px;
-}
+      .download-btn {
+         margin-top: 10px;
+      }
 
-.download-btn button {
-    padding: 8px 15px;
-    margin-top: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
+      .download-btn button {
+         padding: 8px 15px;
+         margin-top: 5px;
+         border: none;
+         border-radius: 5px;
+         cursor: pointer;
+         font-size: 16px;
+         transition: all 0.3s ease;
+      }
 
-.download-btn button i {
-    margin-right: 5px;
-}
+      .download-btn button i {
+         margin-right: 5px;
+      }
 
-.download-btn button:hover {
-    opacity: 0.8;
-}
+      .download-btn button:hover {
+         opacity: 0.8;
+      }
 
-/* Adjust button colors according to your theme */
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
+      /* Adjust button colors according to your theme */
+      .btn-primary {
+         background-color: #007bff;
+         color: #fff;
+      }
 
-.btn-success {
-    background-color: #28a745;
-    color: #fff;
-}
-
+      .btn-success {
+         background-color: #28a745;
+         color: #fff;
+      }
    </style>
 </head>
 
 <body>
+   <?php
+   session_start();
+
+   // Assuming you have a database connection established in 'db_connection.php'
+   include 'connect_db.php';
+
+   // Initialize variables
+   $st_id = isset($_SESSION['st_id']) ? $_SESSION['st_id'] : '';
+   $st_name = isset($_SESSION['st_name']) ? $_SESSION['st_name'] : '';
+   $user_email = isset($_SESSION['st_email']) ? $_SESSION['st_email'] : '';
+
+   // Handle student search
+   if (isset($_POST['search_student'])) {
+      $searchKeyword = $_POST['search_box'];
+      $sql = "SELECT * FROM register_student WHERE name LIKE '%$searchKeyword%'";
+      $result = $conn->query($sql);
+   } else {
+      // Fetch all student data from the database
+      $sql = "SELECT * FROM register_student";
+      $result = $conn->query($sql);
+   }
+   ?>
+
    <?php include 'header.php'; ?>
 
    <!-- Student Report -->
@@ -171,8 +195,11 @@
                      class="fas fa-file-excel"></i></button>
             </div>
             <div class="col-md-4">
-               <label for="search" class="form-label">Search:</label>
-               <input type="text" class="form-control" id="search" placeholder="Search...">
+               <form method="post" action="">
+                  <label for="search" class="form-label">Search:</label>
+                  <input type="text" class="form-control" id="search" name="search_box" placeholder="Search...">
+                  <input type="submit" class="btn btn-primary" name="search_student" value="Search">
+               </form>
             </div>
          </div>
       </div>
@@ -183,16 +210,29 @@
             <thead>
                <tr>
                   <th>Sr No.</th>
-                  <th>Name</th>
-                  <th>Location</th>
-                  <th>Address</th>
-                  <th>Date Time</th>
-                  <th>Action</th>
+                  <th>Student Name</th>
+                  <th>Student Email</th>
+                  <!-- <th>Course Name</th> -->
+                  <!-- <th>Date Time</th> -->
                </tr>
             </thead>
             <tbody>
                <?php
-               // Your PHP code to populate table rows with actual data goes here
+               if ($result && $result->num_rows > 0) {
+                  $count = 1;
+                  while ($row = $result->fetch_assoc()) {
+                     echo "<tr>";
+                     echo "<td>" . $count . "</td>";
+                     echo "<td>" . $row['name'] . "</td>"; // Assuming this is the column name for student name
+                     echo "<td>" . $row['email'] . "</td>";
+                     // echo "<td>" . $row['course_name'] . "</td>";
+                     // You can add more columns as needed based on your database structure
+                     echo "</tr>";
+                     $count++;
+                  }
+               } else {
+                  echo "<tr><td colspan='4'>No students found</td></tr>";
+               }
                ?>
             </tbody>
          </table>

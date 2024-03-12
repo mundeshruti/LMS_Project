@@ -18,6 +18,7 @@
             <a href="report.php" onclick="showReport('adminReport')"><i class="fas fa-user-cog"></i> Admin Report</a>
             
             <a href="studentreport.php" onclick="showReport('studentReport')"><i class="fas fa-user-graduate"></i> Student Report</a>
+            <a href="Coursereport.php" onclick="showReport('CourseReport')"><i class="fa-solid fa-book-open-reader"></i> Course Report</a>
         </div>
 
 
