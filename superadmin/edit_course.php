@@ -29,7 +29,17 @@
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         z-index: 9999;
+    }
 
+    /* Center buttons */
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .inline-btn {
+        display: inline-block;
+        margin-right: 10px;
     }
 </style>
 
@@ -110,8 +120,10 @@
                 </select>
                 <p id="selected_duration"></p>
 
-                <button type="submit" class="inline-btn" style="display: block; margin: 0 auto;">Update Course</button>
-
+                <div class="button-container">
+                    <button type="submit" class="inline-btn">Update Course</button>
+                    <a href="create_courses_display.php" class="inline-btn cancel-btn">Cancel</a> <!-- Cancel button -->
+                </div>
             </div>
         </form>
     </div>
