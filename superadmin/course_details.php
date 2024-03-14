@@ -22,7 +22,7 @@
     <div id="courseAssignment">
         <form action="submit_course_details.php" method="post">
             <h2>course content</h2>
-            <label for="course_name">Course Name:</label>
+            <label for="course_name"><strong>Course Name:</strong></label>
             <select id="course_name" name="course_name">
                 <option value="">Select Course Name</option> <!-- Default option -->
                 <?php
@@ -50,7 +50,7 @@
             </select>
 
 
-            <label for="course_day">Select Day:</label>
+            <label for="course_day"><strong>Select Day:</strong></label>
             <select id="course_day" name="course_day" required>
                 <?php
                 // Include the file to establish database connection
@@ -79,13 +79,13 @@
                 ?>
             </select>
 
-            <label for="course_description">Course Description:</label>
+            <label for="course_description"><strong>Course Description:</strong></label>
             <textarea id="course_description" name="course_description" rows="4" required></textarea>
 
-            <label for="course_link">Course Link:</label>
+            <label for="course_link"><strong>Course Link:</strong></label>
             <input type="url" id="course_link" name="course_link" required pattern="https?://.+">
 
-            <label for="practical_link">Practical Link:</label>
+            <label for="practical_link"><strong>Practical Link:</strong></label>
             <input type="url" id="practical_link" name="practical_link" required>
 
             <button type="submit" class="inline-btn"   style="display: block; margin: 0 auto;">Submit</button>

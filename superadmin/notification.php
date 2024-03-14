@@ -213,7 +213,7 @@ WHERE is_createdby_superadmin = 1;";
     <!-- Notification Form and Container Section -->
     <div id="notification-form">
         <h2>Send Notification</h2>
-        <label for="recipient-type">Select Recipient Type:</label>
+        <label for="recipient-type"><strong>Select Recipient Type:</strong></label>
         <select id="recipient-type">
             <option value="0">All Admins</option>
             <div id="notification-container" class="notification-container">
@@ -225,7 +225,7 @@ WHERE is_createdby_superadmin = 1;";
             ?>
         </select>
         <br>
-        <label for="recipient">Select Recipient:</label>
+        <label for="recipient"><strong>Select Recipient:</strong></label>
         <select id="recipient">
             <option value="0">All Course</option>
             <?php
@@ -238,7 +238,7 @@ WHERE is_createdby_superadmin = 1;";
             </div>
         </select>
         <br>
-        <label for="notification-message">Notification Message:</label>
+        <label for="notification-message"><strong>Notification Message:</strong></label>
         <textarea id="notification-message" rows="5"></textarea>
         <br>
         <button onclick="sendNotificationBySuperadmin()" class="inline-btn"  style="display: block; margin: 0 auto;">Send Notification</button>

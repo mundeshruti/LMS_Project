@@ -2,7 +2,7 @@
 
 // Include your database connection file
 include 'connect_db.php';
-session_start();
+
 // Fetch data from the register_student table
 $sql = "SELECT * FROM register_student";
 $result = mysqli_query($conn, $sql);
@@ -58,7 +58,7 @@ if (isset($_POST['clear'])) {
    }
 
    .options .col-md-4 {
-      /* flex: 1; */
+      flex: 1;
       /* Each column takes up equal space */
       margin-right: 20px;
       /* Add some spacing between columns */
@@ -83,7 +83,7 @@ if (isset($_POST['clear'])) {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 20px;
+      font-size: 16px;
    }
 
    .table-responsive {
@@ -120,7 +120,7 @@ if (isset($_POST['clear'])) {
    }
 
    .col-md-4 {
-      /* width: calc(33.333% - 20px); */
+      width: calc(33.333% - 20px);
       /* Adjust width to fit three columns in a row */
       margin-right: 20px;
       /* Add some spacing between columns */
@@ -130,8 +130,6 @@ if (isset($_POST['clear'])) {
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
-      font-size:14px;
-      padding-top: 20px;
    }
 
    .form-control {
@@ -139,13 +137,11 @@ if (isset($_POST['clear'])) {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      margin-top: 10px;
    }
 
    .download-btn {
-      /* margin-bottom: 10px; */
-      margin-left:10px ;
-      margin-top: 15px;
+      margin-top: 21px;
+    margin-left: -16px
    }
 
    .download-btn button {
@@ -182,12 +178,12 @@ if (isset($_POST['clear'])) {
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
       transition: all 0.3s ease;
    }
 
    .btn-primary {
-      background-color: #007bff;
+      background-color: purple;
       color: #fff;
    }
 
@@ -199,34 +195,37 @@ if (isset($_POST['clear'])) {
    .btn:hover {
       opacity: 0.8;
    }
+
    .button-container {
-    display: flex; /* Use flexbox layout */
-    justify-content: space-between; /* Distribute space between the buttons */
-}
+      display: flex;
+      /* Use flexbox layout */
+      justify-content: space-between;
+      /* Distribute space between the buttons */
+      align-items: flex-end;
+   }
 
-.btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
+   .btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+   }
 
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
+   .btn-primary {
 
-.btn-secondary {
-    background-color: #6c757d;
-    color: #fff;
-}
+      color: #fff;
+   }
 
-.btn:hover {
-    opacity: 0.8;
-}
+   .btn-secondary {
+      background-color: #6c757d;
+      color: #fff;
+   }
 
+   .btn:hover {
+      opacity: 0.8;
+   }
 </style>
 
 <body>
@@ -234,63 +233,69 @@ if (isset($_POST['clear'])) {
    <!-- Super Admin Report -->
    <div class="main-content hide-content" id="studentReport">
       <!-- Include common report form -->
-      <!-- Include common report form -->
       <h1>Student Report</h1>
-      <div style="display:flex; flex-direction: row-reverse;">
-      <div class="col-md-4" style="display: flex; align-content: center">
-            <label for="search" class="form-label"><strong>Search:</strong></label>
+      <div class="row">
+         <div class="col-md-4">
+            <label for="search" class="form-label"><h2>Search:</h2></label>
             <div style="position: relative;">
                <input type="text" class="form-control" id="search" placeholder="Search..." onkeyup="searchAdmin()">
                <i class="fas fa-search"
-                  style="position: absolute; right: 10px; top: 60%; transform: translateY(-50%);"></i>
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
             </div>
-          
-       </div>
-       </div>
-      <div class="options">
-         <!-- Date Range Selector -->
-         <form method="post" class="col-md-4" style=" gap: 20px; margin-left:5%;">
-            <div style="display:flex; gap: 15px; margin-left: 5px;">
-               <div>
-               <label for="startDateSuperAdmin" class="form-label">Start Date:</label>
-               <input type="date" class="form-control" name="startDateSuperAdmin">
-            </div>
-            <div>
-               <label for="endDateSuperAdmin" class="form-label">End Date:</label>
-               <input type="date" class="form-control" name="endDateSuperAdmin">
-            </div>
-            <div class="download-btn">
+         </div>
+         <!-- <div class="download-btn">
             <a class="btn btn-primary" style="background-color: #FF033E"
                href="generate_pdf.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
                target="_blank"><i class="fas fa-file-pdf";></i> </a>
+         </div>
+         <div class="download-btn">
+            <a class="btn btn-success"
+            style="background-color: #03C03C"
+               href="generate_excel.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
+               target="_blank"><i class="fas fa-file-excel"></i> </a>
+         </div> -->
+      </div>
+
+      <div class="options">
+         <!-- Date Range Selector -->
+         <form method="post" class="col-md-4" style="display: flex; gap: 20px" >
+            <div>
+               <label for="startDateSuperAdmin" class="form-label"><h2>Start Date:</h2></label>
+               <input type="date" class="form-control" name="startDateSuperAdmin">
             </div>
+            <div>
+               <label for="endDateSuperAdmin" class="form-label"><h2>End Date:</h2></label>
+               <input type="date" class="form-control" name="endDateSuperAdmin">
+            </div>
+            <br>
+            <div class="button-container" style="gap: 5px;">
+               <input type="submit" name="submit" value="Filter" class="btn btn-primary">
+               <input type="submit" name="clear" value="Clear" class="btn btn-secondary">
+            </div>
+
+            <div class="download-btn"style=" margin-left: 27%;">
+            <a class="btn btn-primary" style="background-color: #FF033E"
+               href="generate_student_report.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
+               target="_blank"><i class="fas fa-file-pdf";></i> </a>
+         </div>
          <div class="download-btn">
             <a class="btn btn-success"
             style="background-color: #03C03C"
                href="generate_excel.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
                target="_blank"><i class="fas fa-file-excel"></i> </a>
          </div>
-            </div>
-         <div class="button-container" style="gap: 15px; margin-left: 10%;" >
-               <input type="submit" name="submit" value="Filter" class="btn btn-primary" style="width:40%;">
-               <input type="submit" name="clear" value="Clear"class="btn btn-secondary" style="width:40%;">
-         </div>
 
-         </form>
-
-         
-
-         
-
+           
       </div>
+      </form>
       <!-- Table -->
       <div class="table-responsive">
          <table class="table table-bordered" id="adminTable">
             <thead>
                <tr>
                   <th>Sr No.</th>
-                  <th>Name</th>
-                  <th>Email</th>
+                  <th>Student Name</th>
+                  <th>Student Email</th>
                </tr>
             </thead>
             <tbody>

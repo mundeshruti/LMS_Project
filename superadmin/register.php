@@ -70,7 +70,7 @@
             <h3>Register Now</h3>
 
             <p><strong>Your Name</strong> <span>*</span></p>
-            <input type="text" name="name" id="name" placeholder="Enter your name" required maxlength="50" class="box" oninput="this.value = this.value.replace(/[^a-zA-Z\s'’]/g, '');">
+            <input type="text" name="name" id="name" placeholder="Enter your name" required maxlength="50" class="box"  oninput="this.value = this.value.replace(/[^a-zA-Z\s'’]/g, '');">
             <span id="nameError" class="error-message"></span>
 
 

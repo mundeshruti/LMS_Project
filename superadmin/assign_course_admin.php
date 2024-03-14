@@ -22,7 +22,7 @@
     <div id="courseAssignment">
         <form action="course_admin_submit.php" method="post">
             <h2>Course Assign to Admin</h2>
-            <label for="name"><b>Admin Name:</b></label>
+            <label for="name"><b>Admin Name: </b></label>
             <select id="name" name="name">
             <option value="">Select Admin Name</option> <!-- Default option -->
                 <?php
@@ -88,7 +88,7 @@
 
             ?>
 
-            <label for="course_name">Course Name:</label>
+            <label for="course_name"><b>Course Name:</b></label>
             <select id="course_name" name="course_name">
             <option value="">Select Course Name</option> <!-- Default option -->
                 <?php

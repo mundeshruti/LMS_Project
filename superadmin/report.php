@@ -83,7 +83,7 @@ if (isset($_POST['clear'])) {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      font-size: 20px;
+      font-size: 16px;
    }
 
    .table-responsive {
@@ -120,7 +120,7 @@ if (isset($_POST['clear'])) {
    }
 
    .col-md-4 {
-      /* width: calc(33.333% - 20px); */
+      width: calc(33.333% - 20px);
       /* Adjust width to fit three columns in a row */
       margin-right: 20px;
       /* Add some spacing between columns */
@@ -130,8 +130,6 @@ if (isset($_POST['clear'])) {
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
-      font: size 14px;
-      padding-top: 5px;
    }
 
    .form-control {
@@ -139,14 +137,11 @@ if (isset($_POST['clear'])) {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      margin: top 10px;
-      padding-top: 4px;
    }
 
    .download-btn {
-      margin-top: 28px;
-      margin-left: -16px justify-content: space-between;
-      ;
+      margin-top: 21px;
+    margin-left: -16px
    }
 
    .download-btn button {
@@ -160,7 +155,7 @@ if (isset($_POST['clear'])) {
    }
 
    .download-btn button i {
-      margin-right: 2px;
+      margin-right: 5px;
    }
 
    .download-btn button:hover {
@@ -183,7 +178,7 @@ if (isset($_POST['clear'])) {
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 18px;
       transition: all 0.3s ease;
    }
 
@@ -206,6 +201,7 @@ if (isset($_POST['clear'])) {
       /* Use flexbox layout */
       justify-content: space-between;
       /* Distribute space between the buttons */
+      align-items: flex-end;
    }
 
    .btn {
@@ -238,19 +234,16 @@ if (isset($_POST['clear'])) {
    <div class="main-content hide-content" id="studentReport">
       <!-- Include common report form -->
       <h1>Admin Report</h1>
-      <div style="display:flex; flex-direction: row-reverse;">
-         <div class="col-md-4" style="display: flex; align-content: center">
-            <label for="search" class="form-label">
-               <h2><strong>Search:</strong></h2>
-            </label>
+      <div class="row">
+         <div class="col-md-4">
+            <label for="search" class="form-label"><h2>Search:</h2></label>
             <div style="position: relative;">
                <input type="text" class="form-control" id="search" placeholder="Search..." onkeyup="searchAdmin()">
                <i class="fas fa-search"
-                  style="position: absolute; right: 10px; top: 60%; transform: translateY(-50%);"></i>
+                  style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
             </div>
          </div>
-      </div>
-      <!-- <div class="download-btn">
+         <!-- <div class="download-btn">
             <a class="btn btn-primary" style="background-color: #FF033E"
                href="generate_pdf.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
                target="_blank"><i class="fas fa-file-pdf";></i> </a>
@@ -261,41 +254,40 @@ if (isset($_POST['clear'])) {
                href="generate_excel.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
                target="_blank"><i class="fas fa-file-excel"></i> </a>
          </div> -->
+      </div>
 
       <div class="options">
          <!-- Date Range Selector -->
-         <form method="post" class="col-md-4" style="gap: 20px; margin-left:5%;">
-            <div style="display:flex; gap: 15px; margin-left: 5px;">
-               <div>
-                  <label for="startDateSuperAdmin" class="form-label">
-                     <h2><strong>Start Date:</strong></h2>
-                  </label>
-                  <input type="date" class="form-control" name="startDateSuperAdmin">
-               </div>
-               <div>
-                  <label for="endDateSuperAdmin" class="form-label"><strong>
-                        <h2>End Date:</h2>
-                     </strong></label>
-                  <input type="date" class="form-control" name="endDateSuperAdmin">
-               </div>
-               <div class="download-btn" style=" margin-left: 1%;">
-                  <a class="btn btn-primary" style="background-color: #FF033E"
-                     href="generate_pdf.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
-                     target="_blank"><i class="fas fa-file-pdf" ;></i> </a>
-               </div>
-               <div class="download-btn">
-                  <a class="btn btn-success" style="background-color: #03C03C"
-                     href="generate_excel.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
-                     target="_blank"><i class="fas fa-file-excel"></i> </a>
-               </div>
+         <form method="post" class="col-md-4" style="display: flex; gap: 20px" >
+            <div>
+               <label for="startDateSuperAdmin" class="form-label"><h2>Start Date:</h2></label>
+               <input type="date" class="form-control" name="startDateSuperAdmin">
             </div>
-            
-            <div style="align-item: center">
-               <input type="submit" name="submit" value="Filter" class="inline-btn">
-               <input type="submit" name="clear" value="Clear" class="inline-btn">
+            <div>
+               <label for="endDateSuperAdmin" class="form-label"><h2>End Date:</h2></label>
+               <input type="date" class="form-control" name="endDateSuperAdmin">
             </div>
-         </form>
+            <br>
+            <div class="button-container" style="gap: 5px;">
+               <input type="submit" name="submit" value="Filter" class="btn btn-primary">
+               <input type="submit" name="clear" value="Clear" class="btn btn-secondary">
+            </div>
+
+            <div class="download-btn" style=" margin-left: 27%;">
+            <a class="btn btn-primary" style="background-color: #FF033E"
+               href="generate_pdf.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
+               target="_blank"><i class="fas fa-file-pdf";></i> </a>
+         </div>
+         <div class="download-btn">
+            <a class="btn btn-success"
+            style="background-color: #03C03C"
+               href="generate_excel.php?from=<?php echo urlencode($from); ?>&to=<?php echo urlencode($to); ?>"
+               target="_blank"><i class="fas fa-file-excel"></i> </a>
+         </div>
+
+           
       </div>
+      </form>
       <!-- Table -->
       <div class="table-responsive">
          <table class="table table-bordered" id="adminTable">
