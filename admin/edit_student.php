@@ -148,11 +148,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <body>
                 <h2>Edit Student</h2>
                 <form action="edit_student.php" method="post" enctype="multipart/form-data">
-                    <label for="name">Name:</label>
+                    <label for="name"><strong>Name:</strong></label>
                     <input type="text" id="name" name="name" value="<?= $name ?>"
                         oninput="this.value = this.value.replace(/[0-9]/g, '');" required>
 
-                    <label for="profession">Profession:</label>
+                    <label for="profession"><strong>Profession:</strong></label>
                     <select name="profession" id="profession" class="box" required>
                         <option value="" disabled>-- select your skill</option>
                         <option value="developer" <?= ($selectedProfession === 'developer') ? 'selected' : '' ?>>Web Developer</option>
@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <option value="Analyst" <?= ($selectedProfession === 'Analyst') ? 'selected' : '' ?>>Analyst</option>
                     </select>
 
-                    <label for="image">Image:</label>
+                    <label for="image"><strong>Image:</strong></label>
                     <?php
 
                     include 'connect_db.php';
@@ -190,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="file" id="image" name="image">
 
                     <div class="password-field">
-                        <label for="password">New Password:</label>
+                        <label for="password"><strong>New Password:</strong></label>
                         <input type="password" id="password" name="password">
                         <span class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility()"></span>
                     </div>

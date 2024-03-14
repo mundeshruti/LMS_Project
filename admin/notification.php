@@ -204,7 +204,7 @@ if (!$course_result || !$notification_result) {
     <div id="notification-form">
         <h2>Send Notification</h2>
         <br>
-        <label for="recipient">Select Recipient:</label>
+        <label for="recipient"><strong>Select Recipient:</strong></label>
         <select id="recipient">
         <option value="0">All Course</option>
             <?php
@@ -240,7 +240,7 @@ if (!$course_result || !$notification_result) {
             ?>
         </select> 
         <br>
-        <label for="notification-message">Notification Message:</label>
+        <label for="notification-message"><strong>Notification Message:</strong></label>
         <textarea id="notification-message" rows="5"></textarea>
         <br>
         <button onclick="sendNotificationByAdmin()" class="inline-btn" style="display: block; margin: 0 auto;">Send Notification</button>

@@ -5,13 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if admin is logged in
-if (!isset($_SESSION['user_id'])) {
-    // Redirect to login page if admin is not logged in
-    header("Location: index.html");
-    exit();
-}
-
 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : '';
 $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
 $user_email = isset($_SESSION['user_email']) ? $_SESSION['user_email'] : '';
@@ -21,9 +14,18 @@ $user_image = isset($_SESSION['user_image']) ? $_SESSION['user_image'] : '';
 <header class="header">
 
     <section class="flex">
-
-        <a href="dashboard.php" class="logo">RSL Solution Pvt.Ltd</a>
-
+    <div style="display: flex; align-items: center;">
+    <?php
+    $user_name = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
+    $imagePath = "../superadmin/uploads/" . basename($user_image);
+    if (file_exists($imagePath)) {
+        echo "<img src=\"$imagePath\" class=\"image\" alt=\"$user_name's Profile Image\" style=\"width: 50px; height: 50px; margin-right: 10px;\">";
+    } else {
+        echo "Image not found.";
+    }
+    ?>
+    <h1><?php echo $user_name; ?></h1>
+</div>
 
         <div class="icons">
 

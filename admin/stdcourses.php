@@ -28,7 +28,7 @@
         <form action="assign_course_std.php" method="post">
             <h2>Course Assign to Student</h2>
 
-            <label for="name">Student Name:</label>
+            <label for="name"><strong>Student Name : </strong></label>
             <select id="name" name="name">
             <option value="">Select Student Name</option> <!-- Default option -->
                 <?php
@@ -57,7 +57,7 @@
 
 
 
-            <label for="course_name">Course Name:</label>
+            <label for="course_name"><strong>Course Name:</strong></label>
             <select id="course_name" name="course_name">
             <option value="">Select Course Name</option> <!-- Default option -->
                 <?php
