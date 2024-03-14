@@ -31,10 +31,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Sorry, your file is too large.";
         $uploadOk = 0;
     }
-
     // Allow only certain file formats
     if (!in_array($fileType, array("pdf", "doc", "docx", "jpg", "jpeg", "png"))) {
-        echo "Sorry, only PDF, DOC, DOCX, JPG, JPEG and PNG files are allowed.";
+        // Set the message to display
+        $errorMessage = "Sorry, only PDF, DOC, DOCX, JPG, JPEG and PNG files are allowed.";
+
+        // Add JavaScript code to display the error message in a popup
+        echo "<script>alert('$errorMessage');</script>";
+
+        // Set $uploadOk to 0 to indicate that the file upload should not proceed
         $uploadOk = 0;
     }
 

@@ -81,7 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <!-- <label for="uploadfile">Upload File:</label> -->
                             <input type="file" id="uploadfile" name="uploadfile" required>
                         </div>
-                        <button type="submit">Update</button>
+                        <button type="submit" class="inline-btn" style="display: block; margin: 0 auto;">Update</button>
+
                     </form>
                 </div>
                 <?php include 'sidebar.php'; ?>

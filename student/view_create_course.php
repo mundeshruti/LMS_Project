@@ -76,51 +76,6 @@ if (isset($_GET['name'])) {
                 background-color: #f2f2f2;
             }
 
-            /* Modal Styles */
-            .modal {
-                display: none;
-                /* Hidden by default */
-                position: fixed;
-                z-index: 1000;
-                /* Ensure it appears above other elements */
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.5);
-                /* Black background with opacity */
-            }
-
-            .modal-content {
-                background-color: #fefefe;
-                margin: 15% auto;
-                /* Center the modal vertically and horizontally */
-                padding: 20px;
-                border: 1px solid #888;
-                width: 80%;
-                max-width: 600px;
-                /* Maximum width of the modal */
-                position: relative;
-            }
-
-            .close-button {
-                color: #aaa;
-                float: right;
-                font-size: 28px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-            .close-button:hover,
-            .close-button:focus {
-                color: black;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-
-
             /* Responsive CSS */
             @media only screen and (max-width: 768px) {
 
@@ -236,7 +191,8 @@ if (isset($_GET['name'])) {
                                             </td>
                                             <td>
                                                 <a href="<?php echo $details['course_link']; ?>" target="_blank">
-                                                    <?php echo $details['course_link']; ?>
+                                                    <!-- <?php echo $details['course_link']; ?> -->
+                                                    <i class="fa-solid fa-play"></i> Play course video
                                                 </a>
                                             </td>
                                             <td>
@@ -277,37 +233,8 @@ if (isset($_GET['name'])) {
                 window.open(filePath, '_blank');
             }
         </script>
-        <script>
-            function openVideoPopup(videoUrl) {
-                // Create a modal (popup) element
-                var modal = document.createElement("div");
-                modal.classList.add("modal");
 
-                // Create a close button for the modal
-                var closeButton = document.createElement("span");
-                closeButton.classList.add("close-button");
-                closeButton.innerHTML = "&times;";
-                closeButton.onclick = function () {
-                    modal.style.display = "none"; // Close the modal when the close button is clicked
-                };
 
-                // Create an iframe element to embed the video
-                var videoFrame = document.createElement("iframe");
-                videoFrame.setAttribute("src", videoUrl);
-                videoFrame.setAttribute("frameborder", "0");
-                videoFrame.setAttribute("allowfullscreen", "");
-
-                // Append the close button and video frame to the modal
-                modal.appendChild(closeButton);
-                modal.appendChild(videoFrame);
-
-                // Append the modal to the document body
-                document.body.appendChild(modal);
-
-                // Display the modal
-                modal.style.display = "block";
-            }
-        </script>
 
         </html>
         <?php

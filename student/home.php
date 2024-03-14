@@ -45,10 +45,10 @@ $user_image = isset($_SESSION['st_image']) ? $_SESSION['st_image'] : '';
                   <p>view Assigned courses</p>
                   <a href="courses.php" class="btn">view courses</a>
                </div>
-               <!-- <div class="box">
+               <div class="box">
                   <p>view your Progress</p>
-                  <a href="#" class="inline-btn">view Progress</a>
-               </div> -->
+                  <a href="report.php" class="btn">view Report</a>
+               </div> 
                <div class="box">
                   <p>view your Program details</p>
                   <a href="program.php" class="btn">view Program details</a>
