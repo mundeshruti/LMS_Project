@@ -42,15 +42,15 @@
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" id="assignmentForm" method="post">
             <h2>Create Course</h2>
             <div id="course-form">
-                <label for="course_name">Course Name:</label>
+                <label for="course_name"><b>Course Name :</b></label>
                 <input type="text" id="course_name" name="course_name" required>
 
                 <br>
 
-                <label for="course_description">Course Description:</label>
+                <label for="course_description"><b>Course Description:</b></label>
                 <textarea id="course_description" name="course_description" rows="4" required></textarea>
 
-                <label for="course_duration">Course Duration:</label>
+                <label for="course_duration"><strong>Course Duration:</strong></label>
                 <select id="course_duration" name="course_duration" required>
                     <?php
                     for ($i = 1; $i <= 30; $i++) {

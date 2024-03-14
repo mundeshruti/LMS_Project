@@ -220,7 +220,7 @@ WHERE is_createdby_superadmin = 1;";
             <?php
             // Loop through the results and generate options dynamically
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="' . $row['id'] . '">' . $row['name'] . "  " . '</option>';      
+                echo '<option value="' . $row['id'] . '">' . $row['name'] . "  " .   '</option>';      
             }
             ?>
         </select>

@@ -84,39 +84,46 @@
     <div id="courseAssignment">
 
         <h2>Edit Course</h2>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <input type="hidden" name="course_id" value="<?php echo $courseDetails['course_id']; ?>">
-            <div id="course-form">
-                <label for="course_name">Course Name:</label>
-                <input type="text" id="course_name" name="course_name"
-                    value="<?php echo $courseDetails['course_name']; ?>">
+        <div style="display: flex; justify-content: space-around;">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" style="flex: 1;">
+                <input type="hidden" name="course_id" value="<?php echo $courseDetails['course_id']; ?>">
+                <div id="course-form">
+                    <label for="course_name">Course Name:</label>
+                    <input type="text" id="course_name" name="course_name"
+                        value="<?php echo $courseDetails['course_name']; ?>">
 
-                <br>
+                    <br>
 
-                <label for="course_description">Course Description:</label>
-                <textarea id="course_description" name="course_description" rows="4"
-                    required><?php echo $courseDetails['course_description']; ?></textarea>
+                    <label for="course_description">Course Description:</label>
+                    <textarea id="course_description" name="course_description" rows="4"
+                        required><?php echo $courseDetails['course_description']; ?></textarea>
 
-                <label for="course_duration">Course Duration:</label>
+                    <label for="course_duration">Course Duration:</label>
 
-                <select id="course_duration" name="course_duration" required>
+                    <select id="course_duration" name="course_duration" required>
 
-                    <?php
-                    for ($i = 1; $i <= 30; $i++) {
-                        $selected = ($i == $courseDetails['course_duration']) ? 'selected' : '';
-                        echo "<option value='$i' $selected>$i day" . ($i > 1 ? "s" : "") . "</option>";
-                    }
-                    ?>
-                </select>
-                <p id="selected_duration"></p>
+                        <?php
+                        for ($i = 1; $i <= 30; $i++) {
+                            $selected = ($i == $courseDetails['course_duration']) ? 'selected' : '';
+                            echo "<option value='$i' $selected>$i day" . ($i > 1 ? "s" : "") . "</option>";
+                        }
+                        ?>
+                    </select>
+                    <p id="selected_duration"></p>
 
-                <button type="submit" class="inline-btn" style="display: block; margin: 0 auto;">Update Course</button>
+                    <button type="submit" class="inline-btn" style=" display:block;margin: 0 auto;">Update
+                        Course</button>
 
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
+            <!-- <div style="inline-size: fit-content;  display: inline-block;">
+                <button type="submit" class="inline-btn"
+                    onclick="location.href='create_courses_display.php'">Cancel</button>
+            </div> -->
 
-    <?php include 'sidebar.php'; ?>
+        </div>
+
+        <?php include 'sidebar.php'; ?>
     </div>
 
     <script src="js/script.js"></script>

@@ -85,8 +85,12 @@ if (isset($_GET['id'])) {
                             <input type="text" id="updated_practical_link" name="updated_practical_link"
                                 value="<?php echo $courseDayDetails['practical_link']; ?>">
                         </div>
-                        <button type="submit" name="edit_course_day" class="btn">Update Course Content</button>
+                       
+                            <button type="submit" name="edit_course_day" style="display: inline-block; margin: 0 auto;" >Update </button>
+                            
                     </form>
+                    <button type="submit" name="edit_course_day" style="display: inline-block; margin: 0 auto;" onclick="location.href='create_courses_display.php'">Cancel</button>
+
                 </div>
             </section>
 

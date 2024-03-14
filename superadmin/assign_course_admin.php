@@ -22,7 +22,7 @@
     <div id="courseAssignment">
         <form action="course_admin_submit.php" method="post">
             <h2>Course Assign to Admin</h2>
-            <label for="name">Admin Name:</label>
+            <label for="name"><b>Admin Name:</b></label>
             <select id="name" name="name">
             <option value="">Select Admin Name</option> <!-- Default option -->
                 <?php

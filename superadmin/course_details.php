@@ -83,7 +83,7 @@
             <textarea id="course_description" name="course_description" rows="4" required></textarea>
 
             <label for="course_link">Course Link:</label>
-            <input type="url" id="course_link" name="course_link" required>
+            <input type="url" id="course_link" name="course_link" required pattern="https?://.+">
 
             <label for="practical_link">Practical Link:</label>
             <input type="url" id="practical_link" name="practical_link" required>

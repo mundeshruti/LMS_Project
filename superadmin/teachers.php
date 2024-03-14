@@ -62,7 +62,7 @@
         <h1 class="heading">Prominent Admin</h1><!--Newly created-->
 
         <form action="" method="post" class="search-tutor">
-            <input type="text" name="search_box" placeholder="Search Courses Here..." maxlength="100">
+            <input type="text" name="search_box" placeholder="Search Admin Here..." maxlength="100">
             <button type="submit" class="fas fa-search" name="search_tutor"></button>
         </form>
 
