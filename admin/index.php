@@ -134,10 +134,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                <span class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility()">
                </span>
             </div>
+            <p class="link">Forgot your password? <a href="#">Reset Password</a></p>
 
             <input type="submit" value="login now" name="submit" class="btn">
-
          </form>
+         
       </section>
    </div>
 
