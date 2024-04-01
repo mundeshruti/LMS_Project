@@ -147,6 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                <span class="toggle-password fas fa-eye-slash" onclick="togglePasswordVisibility()">
                </span>
             </div>
+            <p class="link">Forgot your password? <a href="forgot_password.php">Reset Password</a></p>
+
             <input type="submit" name="submit" value="login now" class="btn">
          </form>
          </form>
